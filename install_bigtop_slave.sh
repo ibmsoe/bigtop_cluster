@@ -13,7 +13,7 @@ if [ $HOSTTYPE = "x86_64" ] ; then
 fi
 sudo apt-get update
 
-
+wrk_dir=$PWD
 if [ ! -d source  ] ; then
 mkdir source; cd $_
 
@@ -33,10 +33,10 @@ sudo rm -rf /tmp/hsperfdata_*
 #sudo ps -aux | grep java | awk '{print $2}' | sudo xargs kill
 sudo RUNLEVEL=1 apt-get install -y hadoop hadoop-client hadoop-hdfs hadoop-yarn* hadoop-mapred* hadoop-conf* libhdfs_* 
 #sudo RUNLEVEL=1 apt-get install -y spark-core spark-datanucleus spark-extras spark-history-server spark-master spark-python spark-thriftserver spark-worker spark-yarn-shuffle
-cd ~/bigtop/source
-sudo dpkg -i spark*.deb 
-cd ~/bigtop
 
+cd $wrk_dir/source
+sudo  RUNLEVEL=1 dpkg -i spark*.deb
+cd ..
 
 # sudo /usr/lib/zookeeper/bin/zkServer.sh restart
 

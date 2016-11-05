@@ -14,6 +14,7 @@ fi
 sudo apt-get update
 
 
+wrk_dir=$PWD
 if [ ! -d source  ] ; then
 mkdir source; cd $_
 
@@ -35,9 +36,10 @@ sudo rm -rf /tmp/hsperfdata_*
 #sudo ps -aux | grep java | awk '{print $2}' | sudo xargs kill
 sudo RUNLEVEL=1 apt-get install -y hadoop hadoop-client hadoop-hdfs hadoop-yarn* hadoop-mapred* hadoop-conf* libhdfs_* 
 #sudo RUNLEVEL=1 apt-get install -y spark-core spark-datanucleus spark-extras spark-history-server spark-master spark-python spark-thriftserver spark-worker spark-yarn-shuffle
-cd ~/bigtop/source
-sudo dpkg -i spark*.deb 
-cd ~/bigtop
+
+cd $wrk_dir/source
+sudo  RUNLEVEL=1 dpkg -i spark*.deb 
+cd .. 
 
 
 # sudo /usr/lib/zookeeper/bin/zkServer.sh restart
@@ -110,11 +112,14 @@ sudo service spark-history-server start
 cd source
 sudo RUNLEVEL=1 dpkg -i zeppelin_0.5.6-1_all.deb
 sudo sed -i -e 's|yarn-client|spark://$(hostname):7077|g' /etc/zeppelin/conf/zeppelin-env.sh
+sudo sed -i -e 's|ZEPPELIN_PORT=8080|ZEPPELIN_PORT=8888|g' /etc/zeppelin/conf/zeppelin-env.sh
 echo "export ZEPPELIN_JAVA_OPTS=\"-Dspark.executor.memory=1G -Dspark.cores.max=4\"" |sudo tee -a /etc/zeppelin/conf/zeppelin-env.sh
 cd ~ 
 sudo chmod -R 1777 /tmp
 sudo -u hdfs hdfs dfs -mkdir /user/zeppelin
 sudo -u hdfs hdfs dfs -chown -R zeppelin /user/zeppelin
+sudo chown -R $USER.  /var/log/zeppelin
+sudo chown -R $USER.  /var/run/zeppelin
 #sudo rm /etc/zeppelin/conf.dist/interpreter.json
 #rm -rf source
 sudo service zeppelin restart
