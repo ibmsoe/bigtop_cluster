@@ -25,11 +25,11 @@ fi
 if [ $HOSTTYPE = "x86_64" ] ; then
  wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=zeppelin,label=docker-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.5.6-1_all.deb
  wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=spark,label=ppc64le-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
- unzip archive.zip; mv archive/output/spark/*.deb source; rm -rf archive
+ unzip archive.zip; mv archive/output/spark/*.deb .; rm -rf archive; rm archive.zip
 fi
 
 fi
-sudo rm -rf /tmp/hsperfdata_*
+
 
 
 #sudo ps -aux | grep java | awk '{print $2}' | sudo xargs kill
