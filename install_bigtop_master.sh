@@ -118,10 +118,9 @@ cd ~
 sudo chmod -R 1777 /tmp
 sudo -u hdfs hdfs dfs -mkdir /user/zeppelin
 sudo -u hdfs hdfs dfs -chown -R zeppelin /user/zeppelin
-sudo chown -R $USER.  /var/log/zeppelin
-sudo chown -R $USER.  /var/run/zeppelin
+sudo chown -R zeppelin.  /var/log/zeppelin
+sudo chown -R zeppelin.  /var/run/zeppelin
 #sudo rm /etc/zeppelin/conf.dist/interpreter.json
 #rm -rf source
-sudo service zeppelin restart
-
+sudo -u zeppelin /usr/lib/zeppelin/bin/zeppelin-daemon.sh restart
 
