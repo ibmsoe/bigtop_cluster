@@ -1,6 +1,14 @@
 #!/bin/bash
 NAMENODE=$1
 RESOURCEMANAGER=$2
+
+change_xml_element() {
+  name=$1
+  value=$2
+  file=$3
+  sed  -i "/<name>$name<\/name>/!b;n;c<value>$value</value>" $file
+} 
+
 add_element(){
   name=$1
   value=$2
@@ -18,4 +26,6 @@ add_element "yarn.resourcemanager.address" "$RESOURCEMANAGER:8032" "/etc/hadoop/
 add_element "yarn.resourcemanager.resource-tracker.address" "$RESOURCEMANAGER:8031" "/etc/hadoop/conf/yarn-site.xml"
 add_element "yarn.resourcemanager.scheduler.address" "$RESOURCEMANAGER:8030" "/etc/hadoop/conf/yarn-site.xml"
 add_element "dfs.namenode.datanode.registration.ip-hostname-check" "false" "/etc/hadoop/conf/hdfs-site.xml"
+#change_xml_element "dfs.namenode.name.dir" "sd1://name1" "/etc/hadoop/conf/hdfs-site.xml"
+#change_xml_element "dfs.namenode.data.dir" "sd1://aada1,dada2" "/etc/hadoop/conf/hdfs-site.xml"
 
