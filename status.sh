@@ -3,16 +3,29 @@
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 printf ">>>> ${GREEN}Apache BigTop Spark${NC} Services Status\n"
-for x in `cd /etc/init.d ; ls spark*` ; do sudo service $x status ; done
+#for x in `cd /etc/init.d ; ls spark*` ; do  service $x status ; done
+systemctl -l --type service -all | grep spark
 printf ">>>> ${GREEN}Apache BigTop Hadoop-HDFS${NC} Services Status\n"
-for x in `cd /etc/init.d ; ls hadoop-hdfs*` ; do sudo service $x status ; done
+#for x in `cd /etc/init.d ; ls hadoop-hdfs*` ; do service $x status ; done
+systemctl -l --type service -all | grep -i hadoop-hdfs
 printf ">>>> ${GREEN}Apache BigTop Hadoop-MAPREDUCE${NC} Services Status\n"
-for x in `cd /etc/init.d ; ls hadoop-map*` ; do sudo service $x status ; done
+#for x in `cd /etc/init.d ; ls hadoop-map*` ; do  service $x status ; done
+systemctl -l --type service -all | grep -i hadoop-map
 printf ">>>> ${GREEN}Apache BigTop HADOOP-YARN${NC} Services Status\n"
-sudo service hadoop-yarn-resourcemanager status
-sudo service hadoop-yarn-nodemanager status
-sudo service hadoop-mapreduce-historyserver status
-sudo service hadoop-yarn-timelineserver status
+systemctl -l --type service -all | grep -i hadoop-yarn-
+#service hadoop-yarn-resourcemanager status
+#service hadoop-yarn-nodemanager status
+#service hadoop-mapreduce-historyserver status
+#service hadoop-yarn-timelineserver status
 printf ">>>> ${GREEN}Apache BigTop Zeppelin${NC} Services Status\n"
-sudo service zeppelin status
+#sudo service zeppelin status
+sudo -u zeppelin /usr/lib/zeppelin/bin/zeppelin-daemon.sh status
+
+printf ">>>> ${GREEN}Apache BigTop yarn node Status${NC}\n"
+sudo -u yarn yarn rmadmin -refreshNodes
+sudo -u yarn yarn node -list
+
+printf ">>>> ${GREEN}Apache BigTop yarn hdfs Status${NC}\n"
+sudo -u hdfs hdfs dfsadmin -report
+sudo -u hdfs hdfs dfsadmin -printTopology
 
