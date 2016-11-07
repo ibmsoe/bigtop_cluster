@@ -14,6 +14,7 @@ fi
 sudo apt-get update
 
 
+wrk_dir=$PWD
 if [ ! -d source  ] ; then
 mkdir source; cd $_
 
@@ -35,9 +36,10 @@ fi
 #sudo ps -aux | grep java | awk '{print $2}' | sudo xargs kill
 sudo RUNLEVEL=1 apt-get install -y hadoop hadoop-client hadoop-hdfs hadoop-yarn* hadoop-mapred* hadoop-conf* libhdfs_* 
 #sudo RUNLEVEL=1 apt-get install -y spark-core spark-datanucleus spark-extras spark-history-server spark-master spark-python spark-thriftserver spark-worker spark-yarn-shuffle
-cd ~/bigtop/source
-sudo dpkg -i spark*.deb 
-cd ~/bigtop
+
+cd $wrk_dir/source
+sudo  RUNLEVEL=1 dpkg -i spark*.deb 
+cd ..
 
 
 # sudo /usr/lib/zookeeper/bin/zkServer.sh restart
@@ -110,8 +112,10 @@ cd ~
 sudo chmod -R 1777 /tmp
 sudo -u hdfs hdfs dfs -mkdir /user/zeppelin
 sudo -u hdfs hdfs dfs -chown -R zeppelin /user/zeppelin
+sudo chown -R zeppelin.  /var/log/zeppelin
+sudo chown -R zeppelin.  /var/run/zeppelin
 #sudo rm /etc/zeppelin/conf.dist/interpreter.json
 #rm -rf source
-sudo service zeppelin restart
+sudo -u zeppelin /usr/lib/zeppelin/bin/zeppelin-daemon.sh restart
 
 

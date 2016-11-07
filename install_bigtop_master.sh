@@ -30,7 +30,7 @@ if [ $HOSTTYPE = "x86_64" ] ; then
 fi
 
 fi
-sudo rm -rf /tmp/hsperfdata_*
+#sudo rm -rf /tmp/hsperfdata_*
 
 
 #sudo ps -aux | grep java | awk '{print $2}' | sudo xargs kill
