@@ -7,4 +7,4 @@ sudo apt-get purge -y spark-*
 sudo apt-get purge -y zeppelin*
 sudo apt-get purge -y zookeeper*
 sudo rm -rf /var/lib/hadoop-*
-sudo rm -rf /usr/lib/zeppelin /etc/zeppelin /var/run/zeppelin/webapps /var/log/zeppelin
+sudo rm -rf /usr/lib/zeppelin /etc/zeppelin /var/run/zeppelin /var/log/zeppelin
