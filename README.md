@@ -22,7 +22,7 @@
 ##### A Brief Outline of scripts included in this project and their function follows:
 -	install_bigtop_single_node.sh - Downloads, installs, configures, and starts all of the components listed above in a single node configuration.
 -	install_bigtop_master.sh - Downloads, installs, configures, and starts all of the components listed above in master node.
--	install_bigtop_master.sh - Downloads, installs, configures, and starts all of the components listed above in master node.
+-	install_bigtop_slave.sh - Downloads, installs, configures, and starts all of the components listed above in slave node.
 -   cleanup.sh - Uninstall existing Hadoop and Spark, Prepares the system for the install_bigtop.sh.
 -	restart-master.sh - A convenient way to restart all BigTop components in master node.
 -	restart-slave.sh - A convenient way to restart all BigTop components in slave node.
