@@ -54,5 +54,8 @@ Append the following lines in the /etc/hosts file.
 .....
 ```
 ### Hadoop/Spark Installation
-- master node - execute install_bigtop_master.sh
+- Create all the directories on each system for the HDFS and YARN directories
+- Set proper permissions on the directories
+- Update the update-conf.sh script with the specific parameters for the cluster and replicate this updated version to each node.
 - on each slave node - execute install_bigtop_slave.sh {master node's hostname}
+- master node - execute install_bigtop_master.sh
