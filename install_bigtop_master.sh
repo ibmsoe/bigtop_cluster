@@ -65,11 +65,11 @@ sudo chown -R hdfs:hadoop /var/log/hadoop-hdfs*
 sudo chown -R yarn:hadoop /var/log/hadoop-yarn*
 sudo chown -R mapred:hadoop /var/log/hadoop-mapred*
 sudo chown -R $USER:hadoop /etc/hadoop
+./update-conf.sh $HOSTNAME $HOSTNAME
 ### master node onlly
 sudo -u hdfs hdfs namenode -format -force
 sudo rm -rf /var/lib/hadoop-hdfs/cache/hdfs/dfs/data
 #for x in `cd /etc/init.d ; ls hadoop-hdfs-*` ; do sudo service $x start ; done
-./update-conf.sh $HOSTNAME $HOSTNAME
 sudo service hadoop-hdfs-namenode start
 
 sudo -u hdfs hadoop fs -mkdir -p /tmp/hadoop-yarn/staging/history/done_intermediate
