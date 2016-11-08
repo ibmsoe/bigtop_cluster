@@ -1,6 +1,0 @@
-master=11.111.11 master_hostname
-slave=12.111.11 slave_hostname1
-slave=13.111.11 slave_hostname1
-slave=14.111.11 slave_hostname1
-slave=15.111.11 slave_hostname1
-slave=16.111.11 slave_hostname1
