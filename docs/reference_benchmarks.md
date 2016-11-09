@@ -54,7 +54,6 @@ spark-bench/LogisticRegression/conf/env.sh:
  MAX_ITERATION=3
  
 -SPARK_STORAGE_MEMORYFRACTION=0.5
-+SPARK_STORAGE_MEMORYFRACTION=0.6
 ```
 
 spark-bench/LogisticRegression/bin/config.sh:
@@ -116,7 +115,7 @@ tpcds/gen_data.sh:
 ```
 #!/bin/bash
 
-echo "Clearing cache on all nodes. Enter password for sudo access on each node when prompting..."
+echo "Clearing cache on all nodes. Enter password for sudo access on each node when prompted..."
 ssh -t sparkmasterlab "echo 3 | sudo tee /proc/sys/vm/drop_caches"
 ssh -t sparkslavelab1 "echo 3 | sudo tee /proc/sys/vm/drop_caches"
 ssh -t sparkslavelab2 "echo 3 | sudo tee /proc/sys/vm/drop_caches"
@@ -133,7 +132,7 @@ tpcds/run.sh:
 ```
 #!/bin/bash
 
-echo "Clearing cache on all nodes. Enter password for sudo access on each node when prompting..."
+echo "Clearing cache on all nodes. Enter password for sudo access on each node when prompted..."
 
 ssh -t sparkmasterlab "echo 3 | sudo tee /proc/sys/vm/drop_caches"
 ssh -t sparkslavelab1 "echo 3 | sudo tee /proc/sys/vm/drop_caches"
