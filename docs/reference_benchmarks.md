@@ -97,6 +97,70 @@ cd spark-bench/LogisticRegression/bin
 spark-sql-perf: `https://github.com/databricks/spark-sql-perf.git` (tag: 0.3.2)<br>
 tpcds-kit: `https://github.com/davies/tpcds-kit.git` (commit: 39a63a4)
 
+### Modify spark-sql-perf as follows:
+
+spark-sql-perf/src/main/scala/com/databricks/spark/sql/perf/tpcds/Tables.scala:
+```diff
+@@ -31,7 +31,7 @@
+ 
+   case class Table(name: String, partitionColumns: Seq[String], fields: StructField*) {
+     val schema = StructType(fields)
+-    val partitions = if (partitionColumns.isEmpty) 1 else 100
++    val partitions = if (partitionColumns.isEmpty) 1 else 320
+ 
+     def nonPartitioned: Table = {
+       Table(name, Nil, fields : _*)
+@@ -253,6 +253,7 @@
+   }
+ 
+   val tables = Seq(
++/*
+     Table("catalog_sales",
+       partitionColumns = "cs_sold_date_sk" :: Nil,
+       'cs_sold_date_sk          .int,
+@@ -324,6 +325,7 @@
+       'inv_item_sk          .int,
+       'inv_warehouse_sk     .int,
+       'inv_quantity_on_hand .int),
++*/
+     Table("store_sales",
+       partitionColumns = "ss_sold_date_sk" :: Nil,
+       'ss_sold_date_sk      .int,
+@@ -371,6 +373,7 @@
+       'sr_reversed_charge   .decimal(7,2),
+       'sr_store_credit      .decimal(7,2),
+       'sr_net_loss          .decimal(7,2)),
++/*
+     Table("web_sales",
+       partitionColumns = "ws_sold_date_sk" :: Nil,
+       'ws_sold_date_sk          .int,
+@@ -477,6 +480,7 @@
+       'cp_catalog_page_number   .int,
+       'cp_description           .string,
+       'cp_type                  .string),
++*/
+     Table("customer",
+       partitionColumns = Nil,
+       'c_customer_sk             .int,
+@@ -665,7 +669,8 @@
+       't_am_pm                   .string,
+       't_shift                   .string,
+       't_sub_shift               .string,
+-      't_meal_time               .string),
++      't_meal_time               .string)
++/*
+     Table("warehouse",
+       partitionColumns = Nil,
+       'w_warehouse_sk           .int,
+@@ -726,5 +731,6 @@
+       'web_country              .string,
+       'web_gmt_offset           .string,
+       'web_tax_percentage       .decimal(5,2))
++*/
+   )
+ }
+```
+
 ### Automation scripts:
 
 tpcds/dsgen.scala:
