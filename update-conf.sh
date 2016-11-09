@@ -19,10 +19,30 @@ add_element(){
   sed -i -e "/<\/configuration>/ s/.*/${C}\n&/" $xml_file
 }
 
+change_hdfs_dir(){
+pre="file://"
+value=""
+
+while read drive
+do
+   value=$pre$drive","$value
+done < $1
+
+change_xml_element "dfs.namenode.name.dir" $value "/etc/hadoop/conf/hdfs-site.xml"
+}
+
 
 ## Add and init yarn.resourcemanager.address in yarn-site.xml
 sed -i s/localhost/$NAMENODE/ /etc/hadoop/conf/core-site.xml
 sed -i s/localhost/$RESOURCEMANAGER/ /etc/hadoop/conf/mapred-site.xml
+
+sudo chown -R $USER:hadoop /etc/spark
+echo "spark.driver.memory             20g" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.driver.cores                8" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.history.fs.logDirectory   hdfs://$(hostname):8020/directory" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.default.parallelism       480" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.storage.memoryFraction    0.6" >>/etc/spark/conf/spark-defaults.conf
+
 add_element "yarn.resourcemanager.hostname" "$RESOURCEMANAGER" "/etc/hadoop/conf/yarn-site.xml"
 add_element "yarn.resourcemanager.address" "$RESOURCEMANAGER:8032" "/etc/hadoop/conf/yarn-site.xml"
 add_element "yarn.resourcemanager.resource-tracker.address" "$RESOURCEMANAGER:8031" "/etc/hadoop/conf/yarn-site.xml"
@@ -35,13 +55,13 @@ add_element "dfs.namenode.datanode.registration.ip-hostname-check" "false" "/etc
 
 if [ "$1" == "$HOSTNAME" ]; then
   if [ -f dir_list_namenode ]; then cat dir_list_namenode|xargs sudo mkdir -p; fi
+  change_hdfs_dir dir_list_namenode 
 else
-  if [ -f dir_list_datanode ]; the cat dir_list_datanode|xargs sudo mkdir -p; fi
+  if [ -f dir_list_datanode ]; then cat dir_list_datanode|xargs sudo mkdir -p; fi
+  change_hdfs_dir dir_list_datanode
 fi 
 
-echo "$USER                soft    nofile          100000" | sudo tee -a  /etc/security/limits.conf
-echo "$USER                hard    nofile          100000" | sudo tee -a  /etc/security/limits.conf
+echo "*                soft    nofile          100000" | sudo tee -a  /etc/security/limits.conf
+echo "*                hard    nofile          100000" | sudo tee -a  /etc/security/limits.conf
 
-#change_xml_element "dfs.namenode.name.dir" "sd1://name1" "/etc/hadoop/conf/hdfs-site.xml"
-#change_xml_element "dfs.namenode.data.dir" "sd1://aada1,dada2" "/etc/hadoop/conf/hdfs-site.xml"
 
