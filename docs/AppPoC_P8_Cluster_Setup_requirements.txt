@@ -1,0 +1,329 @@
+ApplePoC P8 Habanero 1+4 Cluster Setup Requirements
+
+
+1. Topology
+
+One master node with hostname or alias sparkmasterlab defined on 10Gbps private network
+
+Four data nodes with the following hostnames or aliases defined on the same 10Gbps private network:
+
+sparkslavelab1
+sparkslavelab2
+sparkslavelab3
+sparkslavelab4
+
+
+Each node must have the following entries in /etc/hosts. 
+
+Note: You must replace <private IP?> in /etc/hosts with the real private IP address for the corresponding node.
+
+127.0.0.1       localhost
+<private IP1>       sparkmasterlab
+<private IP2>       sparkslavelab1
+<private IP3>       sparkslavelab2
+<private IP4>       sparkslavelab3
+<private IP5>       sparkslavelab4
+
+For any user on any node in the cluster, the command hostname must return the host name defined as above for the corresponding node.
+
+
+2. Hardware Configuration
+
+
+
+ 
+†Configuration	P8 Habanero (OpenPOWER)	   
+# of name node	1	   
+# of data nodes	4	   
+Node Model	POWER8 S812LC 8348-21C	   
+Physical CPU cores per node†	10	   
+SMT/Hyperthread	8	   
+CPU Frequency	2.92GHz (Turbo 3.53GHz)	   
+Memory	256GB	   
+Storage	PMC Series 8 12 Gbps Adapter	   
+	8 x 6 TB HDD for HDFS and spark shuffling	   
+Network	Public 1Gbps, Private 10Gbps	   
+OS	Ubuntu 16.04 kernel 4.4.0-45-generic baremetal 	   
+OpenJDK8	build 1.8.0_91-8u91-b14-3ubuntu1~16.04.1-b14	   
+Hadoop HDFS version	2.7.2	   
+Spark version	1.6.2	 
+
+
+
+
+3. User IDs and group to run the services and benchmarks
+
+Adopt Amir's recommendations to use the user IDs and groups created by Bigtop to run the Hadoop services including the hdfs and spark services.
+
+
+Create a regular user ID guest on every node in the cluster with home directory /home/guest to run the Spark-Bench Logistics Regression and the Databricks TPC-DS benchmarks. This guest user ID must have sudo privilege.
+
+sudo useradd guest -U -G sudo -m
+sudo passwd guest
+
+
+
+4. Install paths of Hadoop, spark, and benchmarks
+
+Hadoop install path: use the default Bigtop install path
+
+Spark install path: use the default Bigtop install path
+
+Spark-Bench install path: /home/guest/spark-bench
+
+Databricks TPC-DS install path: /home/guest/spark-sql-perf-0.3.2
+
+TPC-DS data generation toolkit install path: /home/guest/tpcds-kit
+
+TPC-DS work directory install path: /home/guest/tpcds
+
+The Bigtop setup process should install Hadoop and Spark on every node in the cluster.
+
+All the above four benchmark packages must be installed in the aforementioned directories on every node of the cluster.
+
+
+
+5. Minimum services to run the Spark benchmarks
+
+The master node must have hadoop-hdfs-namenode, spark-master, and spark-history-server services started
+
+Every data node must have hadoop-hdfs-datanode and spark-worker services started.
+
+
+
+6. Required ulimit setting
+
+
+The following ulimit setting in /etc/security/limits.conf is required on every node in the cluster.
+
+*                soft    nofile          1000000 
+*                hard    nofile          1000000
+
+
+
+7. Required IPv6 setting
+
+
+IPv6 must be disabled on every node in the cluster. IPv6 can be disabled by adding the following entries in /etc/sysctl.conf then run ìsysctl ñpî as root.
+
+
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+
+
+
+8. Required firewall setting
+
+
+The firewall must be disabled and not started on every node in the cluster. 
+
+
+
+9. Required OS packages
+
+
+The required OS packages must be installed on every node in the cluster through the following command.
+
+
+sudo apt-get install openjdk-8-jdk openjdk-8-jdk-headless openjdk-8-dbg unzip maven libgfortran3 ntp cpufrequtils cmake make gcc flex bison byacc git
+
+
+
+10. ntp service 
+
+
+The ntp service must be started on every node in the cluster:
+
+sudo service ntp start
+
+
+
+11. Hard disk format and mount options 
+
+
+All hard disks that are used by Hadoop HDFS and Spark must be formatted as ext4 file system and mounted using UUID with the noatime and nodiratime options as shown in the following entries in /etc/fstab:
+
+
+UUID="70ed2867-79a9-424e-927b-52c54773c71c" /hdd1 ext4 noatime,nodiratime 0 0
+UUID="82c01538-c768-4dfe-92ae-08151a1c0c35" /hdd2 ext4 noatime,nodiratime 0 0
+UUID="2f9bdcf8-6c64-4a3f-9618-a79f2ea8a25e" /hdd3 ext4 noatime,nodiratime 0 0
+UUID="cfd9cc4b-dddf-4214-8422-4354576be5d4" /hdd4 ext4 noatime,nodiratime 0 0
+UUID="44487c7c-56e2-442d-8365-b22eeaf0ef7a" /hdd5 ext4 noatime,nodiratime 0 0
+UUID="02cabae5-83ec-4ffd-870c-600601c4dea1" /hdd6 ext4 noatime,nodiratime 0 0
+UUID="de9a1e12-8605-461b-a462-4aa5dcb5d3fe" /hdd7 ext4 noatime,nodiratime 0 0
+UUID="9105e8c3-8fcd-4420-979a-2ea52b8b9dd6" /hdd8 ext4 noatime,nodiratime 0 0
+
+
+This applies to every node in the cluster.
+
+
+12. Required Hadoop configuration 
+
+On top of the default Hadoop configuration created by the Bigtop installation the following Hadoop configurations are required.
+
+
+hadoop-env.sh: JAVA_HOME must be correctly set in hadoop-env.sh. A correct example is:
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-ppc64el
+
+
+
+core-site.xml: The following property must exist in core-site.xml. 
+
+
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://sparkmasterlab:8020</value>
+  </property>
+
+
+
+
+hdfs-site.xml: The following properties must exist in hdfs-site.xml (assume there are eight hard disks on the master node for HDFS metadata and eight hard disks on every data node for HDFS data). 
+
+
+<property>
+  <name>dfs.replication</name>
+  <value>3</value>
+</property>
+<property>
+   <name>hadoop.tmp.dir</name>
+   <value>/tmp/hadoop-${user.name}</value>
+</property>
+<property>
+   <name>dfs.namenode.name.dir</name>
+<value>file:///hdd1/hdfs/name,file:///hdd2/hdfs/name,file:///hdd3/hdfs/name,file:///hdd4/hdfs/name,file:///hdd5/hdfs/name,file:///hdd6/hdfs/name,file:///hdd7/hdfs/name,file:///hdd8/hdfs/name</value>
+</property>
+<property>
+   <name>dfs.namenode.checkpoint.dir</name>
+   <value>file:///hdd1/hdfs/namesecond,file:///hdd2/hdfs/namesecond,file:///hdd3/hdfs/namesecond,file:///hdd4/hdfs/namesecond,file:///hdd5/hdfs/namesecond,file:///hdd6/hdfs/namesecond,file:///hdd7/hdfs/namesecond,,file:///hdd8/hdfs/namesecond</value>
+</property>
+<property>
+   <name>dfs.datanode.data.dir</name>
+   <value>file:///hdd1/hdfs/data,file:///hdd2/hdfs/data,file:///hdd3/hdfs/data,file:///hdd4/hdfs/data,file:///hdd5/hdfs/data,file:///hdd6/hdfs/data,file:///hdd7/hdfs/data,file:///hdd8/hdfs/data</value>
+</property>
+
+
+mapred-site.xml: Hadoop compression must be disabled in mapred-site.xml through removing the mapreduce.output.fileoutputformat.compress property from mapred-site.xml or set it to false in mapred-site.xml.
+
+<property>
+  <name>mapreduce.output.fileoutputformat.compress</name>
+  <value>false</value>
+</property>
+
+
+Make sure the related directories are created and granted the correct permission on every node in the cluster. 
+
+sudo chown -R hdfs:hadoop /hdd*/hdfs/*
+
+
+13. Required Spark configuration 
+
+On top of the default Spark configuration created by the Bigtop installation the following Spark configurations are required.
+
+spark-defaults.conf:
+
+spark.master            spark://sparkmasterlab:7077
+spark.driver.memory             20g
+spark.driver.cores              8
+spark.eventLog.enabled  true
+spark.eventLog.dir              hdfs://sparkmasterlab:8020/history_logs
+spark.history.fs.logDirectory   hdfs://sparkmasterlab:8020/history_logs
+spark.default.parallelism       480
+
+
+
+spark-env.sh: Most settings in spark-env.sh from the Bigtop installation are good except SPARK_HISTORY_OPTS. We need to remove the -Dspark.history.fs.logDirectory option in SPARK_HISTORY_OPTS so Spark can use the spark.history.fs.logDirectory defined in spark-defaults.conf. We also need to set SPARK_LOCAL_DIRS to use all the eight hard disks for Spark intermediate data on each data node.
+
+export SPARK_HOME=${SPARK_HOME:-/usr/lib/spark}
+export SPARK_LOG_DIR=${SPARK_LOG_DIR:-/var/log/spark}
+
+export HADOOP_HOME=${HADOOP_HOME:-/usr/lib/hadoop}
+export HADOOP_HDFS_HOME=${HADOOP_HDFS_HOME:-${HADOOP_HOME}/../hadoop-hdfs}
+export HADOOP_MAPRED_HOME=${HADOOP_MAPRED_HOME:-${HADOOP_HOME}/../hadoop-mapreduce}
+export HADOOP_YARN_HOME=${HADOOP_YARN_HOME:-${HADOOP_HOME}/../hadoop-yarn}
+export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-/etc/hadoop/conf}
+
+# Let's run everything with JVM runtime, instead of Scala
+export SPARK_LAUNCH_WITH_SCALA=0
+export SPARK_LIBRARY_PATH=${SPARK_LIBRARY_PATH:-${SPARK_HOME}/lib}
+export SCALA_LIBRARY_PATH=${SCALA_LIBRARY_PATH:-${SPARK_HOME}/lib}
+
+# Let's make sure that all needed hadoop libs are added properly
+export CLASSPATH="$CLASSPATH:$HADOOP_HOME/*:$HADOOP_HDFS_HOME/*:$HADOOP_YARN_HOME/*:$HADOOP_MAPRED_HOME/*"
+export SPARK_LIBRARY_PATH=$SPARK_LIBRARY_PATH:${HADOOP_HOME}/lib/native
+
+export STANDALONE_SPARK_MASTER_HOST=`hostname -f`
+export SPARK_MASTER_PORT=7077
+export SPARK_MASTER_WEBUI_PORT=18080
+
+export SPARK_WORKER_DIR=${SPARK_WORKER_DIR:-/var/run/spark/work}
+export SPARK_WORKER_PORT=7078
+export SPARK_WORKER_WEBUI_PORT=18081
+
+export SPARK_HISTORY_OPTS="$SPARK_HISTORY_OPTS -Dspark.history.ui.port=18082"
+export SPARK_MASTER_IP=sparkmasterlab
+export SPARK_LOCAL_DIRS="/hdd1/spark/local,/hdd2/spark/local,/hdd3/spark/local,/hdd4/spark/local,/hdd5/spark/local,/hdd6/spark/local,/hdd7/spark/local,/hdd8/spark/local"
+
+
+Make sure the related directories are created and granted the correct permission.
+
+If the spark user ID created by the Bigtop installation belongs to group spark, then you must change the ownership and grant the permission for /hdd*/spark/ using the following commands.
+
+sudo chown -R spark:spark /hdd*/spark/*
+sudo chmod -R 1777 /hdd*/spark/* 
+
+The above Spark configurations must be identical on every node in the cluster
+
+
+14. Required environment variables 
+
+The following environment variables must be defined and exported on every node in .bashrc for the guest user ID that is used to run the Spark benchmarks. Change the values accordingly if they are different from the ones created by the Bigtop installation.
+
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-ppc64el
+export HADOOP_CONF_DIR=/etc/hadoop/conf
+export HADOOP_PREFIX=/usr/lib/hadoop-hdfs
+export HADOOP_LIBEXEC_DIR=/usr/lib/hadoop/libexec
+export HADOOP_LOGS=/usr/lib/hadoop/logs
+export HADOOP_COMMON_HOME=/usr/lib/hadoop
+export HADOOP_HDFS_HOME=/usr/lib/hadoop-hdfs
+export HADOOP_MAPRED_HOME=/usr/lib/hadoop-mapreduce
+export HADOOP_YARN_HOME=/usr/lib/hadoop-yarn
+export HADOOP_HOME=$HADOOP_PREFIX
+
+export SPARK_HOME=${SPARK_HOME:-/usr/lib/spark}
+export SPARK_LOG_DIR=${SPARK_LOG_DIR:-/var/log/spark}
+export LD_LIBRARY_PATH=${HADOOP_HOME}/lib/native:${LD_LIBRARY_PATH}
+
+export PATH=$HADOOP_HOME/sbin:$HADOOP_HOME/bin:$JAVA_HOME/jre/bin:$JAVA_HOME/bin:$PATH
+
+
+
+
+15. Required HDFS directories and permission for Spark 
+
+On top of the Spark directories created by the Bigtop installation, the following HDFS /tmp and /history_logs directories must be created and granted the required permission. 
+
+
+As guest user ID on the master node, do:
+
+sudo -u hdfs hdfs dfs -mkdir /tmp
+sudo -u hdfs hdfs dfs -chmod -R 1777 /tmp
+
+sudo -u hdfs hdfs dfs -mkdir /history_logs
+sudo -u hdfs hdfs dfs -chmod -R 1777 /history_logs
+
+
+After the above steps, you must change the permission for the local /tmp to match the permission for the HDFS /tmp on every node in the cluster.
+
+sudo chmod -R 1777 /tmp
+
+
+
+16. Turbo frequency and SMT mode 
+
+Turbo frequency and performance mode must be set on every node in the cluster. 
+
+SMT mode must be set to SMT8 on every node in the cluster.
