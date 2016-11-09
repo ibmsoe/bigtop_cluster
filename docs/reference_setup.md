@@ -1,15 +1,15 @@
-#### On each node:
+#### I. On each node:
 - unpack tarball
 - format local drives, mount at `/hdd<#>` and add entry to `/etc/fstab` [mount.sh]
 - setup `/etc/hosts`
 - setup ssh keys for `guest` user
 
-#### Master node setup as guest user [setup_master.sh]
-1. install requisite packages [pkg_req.sh]
+#### II. Master node setup as `guest` user _[setup_master.sh]_
+1. install requisite packages _[pkg_req.sh]_
 
         openjdk-8-jdk openjdk-8-jdk-headless openjdk-8-dbg unzip maven libgfortran3 ntp cpufrequtils cmake make openssh-server ethtool clustershell spheres
 
-2. create directories [namenode_dir.sh / dir_list_namenode]:
+2. create directories _[namenode_dir.sh / dir_list_namenode]_:
 
         /hdd1/hdfs/name, /hdd2/hdfs/name, /hdd3/hdfs/name, /hdd4/hdfs/name, /hdd5/hdfs/name, /hdd6/hdfs/name, /hdd7/hdfs/name, /hdd8/hdfs/name
         /hdd1/hdfs/namesecond, /hdd2/hdfs/namesecond, /hdd3/hdfs/namesecond, /hdd4/hdfs/namesecond, /hdd5/hdfs/namesecond, /hdd6/hdfs/namesecond, /hdd7/hdfs/namesecond, /hdd8/hdfs/namesecond
@@ -20,8 +20,8 @@
         /var/run/spark
         /hdd1/spark/local, /hdd2/spark/local, /hdd3/spark/local, /hdd4/spark/local, /hdd5/spark/local, /hdd6/spark/local, /hdd7/spark/local, /hdd8/spark/local
 
-3. set hostname according to spark.*lab name in `/etc/hosts` [set_hostname.sh]
-4. copy limits [copy_limit_conf.sh]
+3. set hostname according to spark.*lab name in `/etc/hosts` _[set_hostname.sh]_
+4. copy limits _[copy_limit_conf.sh]_
   - /etc/security/limits.conf
   
           hdfs                soft    nofile          100000
@@ -37,8 +37,8 @@
           net.ipv6.conf.default.disable_ipv6 = 1
           net.ipv6.conf.lo.disable_ipv6 = 1
           
-5. create `hadoop` group and `spark` and `hdfs` users [create_user.sh]
-6. modify `.bashrc` for `spark` and `hdfs` users [env.sh]
+5. create `hadoop` group and `spark` and `hdfs` users _[create_user.sh]_
+6. modify `.bashrc` for `spark` and `hdfs` users _[env.sh]_
 
         export SPARK_HOME=/opt/spark-1.6.2/
         export HADOOP_HOME=/opt/hadoop
@@ -60,7 +60,7 @@
         export PATH=$HADOOP_HOME/sbin:$HADOOP_HOME/bin:$JAVA_HOME/jre/bin:$JAVA_HOME/bin:$PATH
         export LD_LIBRARY_PATH=/opt/hadoop/lib/native:/opt/hadoop/lib/native/lib:$LD_LIBRARY_PATH
 
-6. install spark, hadoop and benchmarks [install_spark.sh]
+6. install spark, hadoop and benchmarks _[install_spark.sh]_
   1. unpack spark tarball into `/opt/spark-1.6.2`.  The following configuration resides in `/opt/spark-1.6.2/conf`:
     1. symlink from `master` to `/opt/hadoop/etc/hadoop/master`
     2. symlink from `slaves` to `/opt/hadoop/etc/hadoop/slaves`
@@ -362,9 +362,9 @@
             export HADOOP_SECURE_DN_PID_DIR=${HADOOP_PID_DIR}
             export HADOOP_IDENT_STRING=$USER
 
-  3. unpack benchmark tarballs into /home/spark [spark-bench, spark-sql-perf-0.3.2, tpcds, tpcds-kit]
+  3. unpack benchmark tarballs into `/home/spark` [spark-bench, spark-sql-perf-0.3.2, tpcds, tpcds-kit]
         
-7. fix permissions [permission.sh]
+7. fix permissions _[permission.sh]_
 
         sudo chown -R hdfs.hadoop /hdd*/*
         sudo chmod -R 775 /hdd*/*
@@ -376,39 +376,45 @@
         sudo chown -R hdfs.hadoop /home/hdfs
         sudo chmod -R 755 /home/hdfs
 
-#### Datanode setup as guest user [setup_datanode.sh]
-	1. install requisite packages [pkg_req.sh] <identical to master node setup>
-	2. create hadoop group and spark/hdfs users [create_user.sh] <identical to master node setup>
-	3. create directories [datanode_dir.sh / dir_datanode_list]:
-		/hdd1/hdfs/data, /hdd2/hdfs/data, /hdd3/hdfs/data, /hdd4/hdfs/data, /hdd5/hdfs/data, /hdd6/hdfs/data, /hdd7/hdfs/data, /hdd8/hdfs/data
+#### III. Datanode setup as `guest` user _[setup_datanode.sh]_
+1. install requisite packages _[pkg_req.sh]_ **identical to master node setup**
+2. create `hadoop` group and `spark` and `hdfs` users _[create_user.sh]_ **identical to master node setup**
+3. create directories _[datanode_dir.sh / dir_datanode_list]_:
+
+        /hdd1/hdfs/data, /hdd2/hdfs/data, /hdd3/hdfs/data, /hdd4/hdfs/data, /hdd5/hdfs/data, /hdd6/hdfs/data, /hdd7/hdfs/data, /hdd8/hdfs/data
 		/hdd1/hdfs/yarn1, /hdd2/hdfs/yarn2, /hdd3/hdfs/yarn3, /hdd4/hdfs/yarn4, /hdd5/hdfs/yarn5, /hdd6/hdfs/yarn6, /hdd7/hdfs/yarn7, /hdd8/hdfs/yarn8
 		/hdd1/spark/local, /hdd2/spark/local, /hdd3/spark/local, /hdd4/spark/local, /hdd5/spark/local, /hdd6/spark/local, /hdd7/spark/local, /hdd8/spark/local
 		/hdd1/yarn/local, /hdd2/yarn/local, /hdd3/yarn/local, /hdd4/yarn/local, /hdd5/yarn/local, /hdd6/yarn/local, /hdd7/yarn/local, /hdd8/yarn/local
 		/var/log/spark
 		/var/run/spark
-	4. set hostname according to spark.*lab name in /etc/hosts [set_hostname.sh] <identical to master node setup>
-	5. copy limits [copy_limit_conf.sh] <identical to master node setup>
-	6. modify .bashrc for spark/hdfs users [env.sh] <identical to master node setup>
-	7. install spark, hadoop and benchmarks [install_spark.sh] <identical to master node setup>
-	8. fix permissions [permission.sh] <identical to master node setup>
+        
+4. set hostname according to `/etc/hosts` _[set_hostname.sh]_ **identical to master node setup**
+5. copy limits _[copy_limit_conf.sh]_ **identical to master node setup**
+6. modify `.bashrc` for `spark` and `hdfs` users _[env.sh]_ **identical to master node setup**
+7. install spark, hadoop and benchmarks _[install_spark.sh]_ **identical to master node setup**
+8. fix permissions _[permission.sh]_ **identical to master node setup**
 
-D. On each node, setup ssh keys for spark and hdfs users
+#### IV. On each node, setup ssh keys for `spark` and `hdfs` users
 
-E. On master node
-	1. as hdfs user, format and start hdfs, create directories [start_hdfs.sh]
-		hadoop namenode -format
+#### V. On master node
+1. as `hdfs` user, format and start hdfs, create directories _[start_hdfs.sh]_
+
+        hadoop namenode -format
 		/opt/hadoop/sbin/stop-dfs.sh
 		/opt/hadoop/sbin/start-dfs.sh
 		/opt/hadoop/bin/hdfs dfs -mkdir /tmp
 		/opt/hadoop/bin/hdfs dfs -chmod a+rwx /tmp
 		/opt/hadoop/bin/hdfs dfs -mkdir /history_logs
 		/opt/hadoop/bin/hdfs dfs -chmod -R 777 /history_logs
-	2. as spark user, start spark [start_spark.sh]
+        
+2. as `spark` user, start spark _[start_spark.sh]_
+
 		/opt/spark-1.6.2/sbin/stop-all.sh
 		/opt/spark-1.6.2/sbin/stop-history-server.sh
 		/opt/spark-1.6.2/sbin/start-all.sh
 		/opt/spark-1.6.2/sbin/start-history-server.sh
-	3. as guest user, check that all services are up as expected [check_services.sh]
+        
+3. as `guest` user, check that all services are up as expected _[check_services.sh]_
 
 
 
