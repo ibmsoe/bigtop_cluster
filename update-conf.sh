@@ -32,10 +32,11 @@ add_element "dfs.namenode.datanode.registration.ip-hostname-check" "false" "/etc
 
 ### Apple PoC specific 
 ./prep-disks.sh
+
 if [ "$1" == "$HOSTNAME" ]; then
-  cat dir_list_namenode|xargs sudo mkdir -p
+  if [ -f dir_list_namenode ]; then cat dir_list_namenode|xargs sudo mkdir -p; fi
 else
-  cat dir_list_datanode|xargs sudo mkdir -p
+  if [ -f dir_list_datanode ]; the cat dir_list_datanode|xargs sudo mkdir -p; fi
 fi 
 
 echo "$USER                soft    nofile          100000" | sudo tee -a  /etc/security/limits.conf
