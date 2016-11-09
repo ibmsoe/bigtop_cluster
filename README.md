@@ -53,9 +53,73 @@ Append the following lines in the /etc/hosts file.
 .....
 .....
 ```
+- Download Install and Configuration Scripts
+On each node do:
+```
+$git clone -b app-poc https://github.com/ibmsoe/bigtop_cluster.git
+```
+or
+``` 
+$wget https://github.com/ibmsoe/bigtop_cluster/archive/app-poc.zip
+$unzip app-poc.xip
+```
+- (optional) Identify Hard Disks to be allocated for used by Hadoop
+
+    >**WARNING - A distructive operation** 
+    >Identify the hard drives available for use for Hadoop cluster. Be sure the disks selected 
+    >do not include the operating system boot disk or any other disk you want to preserve.
+    >This operation will reformat the disks selected and erase all data. 
+    >This has to be done on each node of the cluster.
+
+Step 1 - The following lines describe the process of discovering the disks to use by running lsblk.
+You may need the help of your system administrator to select the disk you want to be part of the hdfs file system of the cluster. 
+Please run this task on the masternode and each of the datanodes.
+```
+$ sudo  lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda      8:0    1 931.5G  0 disk 
+├─sda1   8:1    1     7M  0 part 
+├─sda2   8:2    1 893.8G  0 part /
+└─sda3   8:3    1  37.7G  0 part [SWAP]
+sdb      8:16   1 931.5G  0 disk 
+sdc      8:32   1   5.5T  0 disk 
+sdd      8:48   1   5.5T  0 disk 
+sde      8:64   1   5.5T  0 disk 
+sdf      8:80   1   5.5T  0 disk 
+sdg      8:96   1   5.5T  0 disk 
+sdh      8:112  1   5.5T  0 disk 
+sdi      8:128  1   5.5T  0 disk 
+sdj      8:144  1   5.5T  0 disk 
+sdk      8:160  1   5.5T  0 disk 
+sdl      8:176  1   5.5T  0 disk 
+sdm      8:192  1   5.5T  0 disk 
+sr0     11:0    1  1024M  0 rom  
+sr1     11:1    1  1024M  0 rom  
+sr2     11:2    1  1024M  0 rom  
+sr3     11:3    1  1024M  0 rom  
+```
+**Note**: "sda" is being used for the OS, so it cannot be used but all the 5.5T disks [ sdc .... sdm] are good candidates in this case. 
+
+Step 2 - Edit or create ~/bigtop_cluster/disk-list file to include one drive per line, for example:
+```
+$ cat disk-list.example
+sdb
+sdc
+sdd
+sde
+sdf
+sdg
+sdh
+sdi
+sdj
+sdk
+sdl
+sdm
+```
+
+  
 ### Hadoop/Spark Installation
-- Create all the directories on each system for the HDFS and YARN directories
-- Set proper permissions on the directories
+
 - Update the update-conf.sh script with the specific parameters for the cluster and replicate this updated version to each node.
 - master node - execute install_bigtop_master.sh
 - on each slave node - execute install_bigtop_slave.sh {master node's hostname}

@@ -18,6 +18,8 @@ add_element(){
   C=$(echo $CONTENT | sed 's/\//\\\//g')
   sed -i -e "/<\/configuration>/ s/.*/${C}\n&/" $xml_file
 }
+
+
 ## Add and init yarn.resourcemanager.address in yarn-site.xml
 sed -i s/localhost/$NAMENODE/ /etc/hadoop/conf/core-site.xml
 sed -i s/localhost/$RESOURCEMANAGER/ /etc/hadoop/conf/mapred-site.xml
@@ -26,6 +28,19 @@ add_element "yarn.resourcemanager.address" "$RESOURCEMANAGER:8032" "/etc/hadoop/
 add_element "yarn.resourcemanager.resource-tracker.address" "$RESOURCEMANAGER:8031" "/etc/hadoop/conf/yarn-site.xml"
 add_element "yarn.resourcemanager.scheduler.address" "$RESOURCEMANAGER:8030" "/etc/hadoop/conf/yarn-site.xml"
 add_element "dfs.namenode.datanode.registration.ip-hostname-check" "false" "/etc/hadoop/conf/hdfs-site.xml"
+
+
+### Apple PoC specific 
+./prep-disks.sh
+if [ "$1" == "$HOSTNAME" ]; then
+  cat dir_list_namenode|xargs sudo mkdir -p
+else
+  cat dir_list_datanode|xargs sudo mkdir -p
+fi 
+
+echo "$USER                soft    nofile          100000" | sudo tee -a  /etc/security/limits.conf
+echo "$USER                hard    nofile          100000" | sudo tee -a  /etc/security/limits.conf
+
 #change_xml_element "dfs.namenode.name.dir" "sd1://name1" "/etc/hadoop/conf/hdfs-site.xml"
 #change_xml_element "dfs.namenode.data.dir" "sd1://aada1,dada2" "/etc/hadoop/conf/hdfs-site.xml"
 
