@@ -94,7 +94,7 @@ cd spark-bench/LogisticRegression/bin
 
 ## Databricks TPC-DS benchmark
 
-spark-sql-perf: `https://github.com/databricks/spark-sql-perf.git` (tag: 0.3.2)<br>
+spark-sql-perf: `https://github.com/databricks/spark-sql-perf.git` (tag: v0.3.2)<br>
 tpcds-kit: `https://github.com/davies/tpcds-kit.git` (commit: 39a63a4)
 
 ### Modify spark-sql-perf as follows:
