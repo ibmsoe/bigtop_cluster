@@ -377,8 +377,8 @@
         sudo chmod -R 755 /home/hdfs
 
 #### III. Datanode setup as `guest` user _[setup_datanode.sh]_
-1. install requisite packages _[pkg_req.sh]_ **identical to master node setup**
-2. create `hadoop` group and `spark` and `hdfs` users _[create_user.sh]_ **identical to master node setup**
+1. install requisite packages _[pkg_req.sh]_ **(identical to master node setup)**
+2. create `hadoop` group and `spark` and `hdfs` users _[create_user.sh]_ **(identical to master node setup)**
 3. create directories _[datanode_dir.sh / dir_datanode_list]_:
 
         /hdd1/hdfs/data, /hdd2/hdfs/data, /hdd3/hdfs/data, /hdd4/hdfs/data, /hdd5/hdfs/data, /hdd6/hdfs/data, /hdd7/hdfs/data, /hdd8/hdfs/data
@@ -388,11 +388,11 @@
 		/var/log/spark
 		/var/run/spark
         
-4. set hostname according to `/etc/hosts` _[set_hostname.sh]_ **identical to master node setup**
-5. copy limits _[copy_limit_conf.sh]_ **identical to master node setup**
-6. modify `.bashrc` for `spark` and `hdfs` users _[env.sh]_ **identical to master node setup**
-7. install spark, hadoop and benchmarks _[install_spark.sh]_ **identical to master node setup**
-8. fix permissions _[permission.sh]_ **identical to master node setup**
+4. set hostname according to `/etc/hosts` _[set_hostname.sh]_ **(identical to master node setup)**
+5. copy limits _[copy_limit_conf.sh]_ **(identical to master node setup)**
+6. modify `.bashrc` for `spark` and `hdfs` users _[env.sh]_ **(identical to master node setup)**
+7. install spark, hadoop and benchmarks _[install_spark.sh]_ **(identical to master node setup)**
+8. fix permissions _[permission.sh]_ **(identical to master node setup)**
 
 #### IV. On each node, setup ssh keys for `spark` and `hdfs` users
 
