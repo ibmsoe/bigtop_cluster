@@ -2,12 +2,30 @@
 # please populate the disk-list file with disk names 
 
 if [ -f disk-list ]; then
-echo "start"
-sudo cp /etc/fstab /etc/fstab.$$
-j=1;
+  echo "start"
+  sudo cp /etc/fstab /etc/fstab.$$
+  j=1;
 
-while read i
-do
+  # clean the previous entries - namely anything that is mount to /hdd*
+  while read i
+  do
+    if [[ $i =~ hdd[0-9]+ ]]
+    then
+      echo "#${i}" >> fstab.tmp
+    else
+      echo $i >> fstab.tmp
+    fi
+  done < /etc/fstab
+
+  # unmount the old disks
+  while read i
+  do
+      sudo umount /dev/${i}
+  done < disk-list
+
+  # Now let's format the disks, mount them, and add the fstab entry
+  while read i
+  do
     echo "mounting following disks:"/dev/${i}
     # skip empty line
     if [ "$i" == "\n" ]; then
@@ -19,8 +37,12 @@ do
     #mounting the disks
     sudo mount /dev/${i} /hdd${j}
     #getting the UUID for the disk
-    uuid=$(blkid /dev/${i} | awk '{print $2}')
-    echo "${uuid} /hdd${j} ext4 noatime,nodiratime 0 0" | sudo tee -a /etc/fstab; #inserting UUID into fstab  
+    uuid=$(sudo blkid /dev/${i} | awk '{print $2}')
+    echo "${uuid} /hdd${j} ext4 noatime,nodiratime 0 0" >> fstab.tmp #inserting UUID into fstab
     j=$[$j+1]
-done < disk-list
+  done < disk-list
+
+  # Replace the fstab with our newly created one
+  # sudo mv fstab.tmp /etc/fstab
+
 fi
