@@ -9,3 +9,4 @@ sudo apt-get purge -y zookeeper*
 sudo rm -rf /var/lib/hadoop-*
 sudo rm -rf /usr/lib/zeppelin /etc/zeppelin /var/run/zeppelin /var/log/zeppelin
 sudo umount /hdd* -f
+sudo -rf /hdd*

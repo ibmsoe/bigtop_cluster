@@ -14,9 +14,9 @@ systemctl -l --type service -all | grep -i hadoop-yarn | grep -v hadoop-yarn-nod
 printf ">>>> ${GREEN}Apache BigTop Zeppelin${NC} Services Status\n"
 sudo -u zeppelin /usr/lib/zeppelin/bin/zeppelin-daemon.sh status
 
-printf ">>>> ${GREEN}Apache BigTop yarn node Status${NC}\n"
-sudo -u yarn yarn rmadmin -refreshNodes
-sudo -u yarn yarn node -list
+#printf ">>>> ${GREEN}Apache BigTop yarn node Status${NC}\n"
+#sudo -u yarn yarn rmadmin -refreshNodes
+#sudo -u yarn yarn node -list
 
 printf ">>>> ${GREEN}Apache BigTop yarn hdfs Status${NC}\n"
 sudo -u hdfs hdfs dfsadmin -report

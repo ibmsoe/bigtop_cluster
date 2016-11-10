@@ -32,6 +32,17 @@ change_xml_element "dfs.namenode.name.dir" $value "/etc/hadoop/conf/hdfs-site.xm
 }
 
 
+change_spark_local_dir(){
+
+value=""
+while read drive
+do
+   value=drive","$value
+done < $1
+echo "export SPARK_LOCAL_DIRS=$value" >>/etc/spark/conf/spark-env.sh
+
+}
+
 ## Add and init yarn.resourcemanager.address in yarn-site.xml
 sed -i s/localhost/$NAMENODE/ /etc/hadoop/conf/core-site.xml
 sed -i s/localhost/$RESOURCEMANAGER/ /etc/hadoop/conf/mapred-site.xml
@@ -42,6 +53,7 @@ echo "spark.driver.cores                8" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.history.fs.logDirectory   hdfs://$(hostname):8020/directory" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.default.parallelism       480" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.storage.memoryFraction    0.6" >>/etc/spark/conf/spark-defaults.conf
+ange_spark_local_dir dir_list_spark
 
 add_element "yarn.resourcemanager.hostname" "$RESOURCEMANAGER" "/etc/hadoop/conf/yarn-site.xml"
 add_element "yarn.resourcemanager.address" "$RESOURCEMANAGER:8032" "/etc/hadoop/conf/yarn-site.xml"
@@ -53,7 +65,7 @@ add_element "dfs.namenode.datanode.registration.ip-hostname-check" "false" "/etc
 ### Apple PoC specific 
 ./prep-disks.sh
 #udo chmod 1777 -R /hdd*
-sudo chown -R $USER:hadoop /hdd*
+sudo chown -R hdfs:hadoop /hdd*
 
 if [ "$1" == "$HOSTNAME" ]; then
 #  if [ -f dir_list_namenode ]; then cat dir_list_namenode|xargs sudo mkdir -p; fi
