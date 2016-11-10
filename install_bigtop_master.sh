@@ -1,7 +1,9 @@
 #!/bin/bash
 set -ex
 ./install_nodes.sh
+
 ### master node onlly
+sudo sed -i s/localhost/$HOSTNAME/ /etc/hadoop/conf/core-site.xml
 sudo -u hdfs hdfs namenode -format -force
 sudo rm -rf /var/lib/hadoop-hdfs/cache/hdfs/dfs/data
 sudo service hadoop-hdfs-namenode start
@@ -47,7 +49,7 @@ sudo service spark-history-server start
 #sudo sed -i -e 's|ZEPPELIN_PORT=8080|ZEPPELIN_PORT=8888|g' /etc/zeppelin/conf/zeppelin-env.sh
 #echo "export ZEPPELIN_JAVA_OPTS=\"-Dspark.executor.memory=1G -Dspark.cores.max=4\"" |sudo tee -a /etc/zeppelin/conf/zeppelin-env.sh
 #cd ~ 
-#sudo chmod -R 1777 /tmp
+sudo chmod -R 1777 /tmp
 #sudo -u hdfs hdfs dfs -mkdir /user/zeppelin
 #sudo -u hdfs hdfs dfs -chown -R zeppelin /user/zeppelin
 #sudo chown -R zeppelin.  /var/log/zeppelin

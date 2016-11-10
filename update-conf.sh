@@ -53,7 +53,7 @@ echo "spark.driver.cores                8" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.history.fs.logDirectory   hdfs://$(hostname):8020/directory" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.default.parallelism       480" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.storage.memoryFraction    0.6" >>/etc/spark/conf/spark-defaults.conf
-ange_spark_local_dir dir_list_spark
+change_spark_local_dir dir_list_spark
 
 add_element "yarn.resourcemanager.hostname" "$RESOURCEMANAGER" "/etc/hadoop/conf/yarn-site.xml"
 add_element "yarn.resourcemanager.address" "$RESOURCEMANAGER:8032" "/etc/hadoop/conf/yarn-site.xml"
@@ -67,14 +67,13 @@ add_element "dfs.namenode.datanode.registration.ip-hostname-check" "false" "/etc
 #udo chmod 1777 -R /hdd*
 sudo chown -R hdfs:hadoop /hdd*
 
-if [ "$1" == "$HOSTNAME" ]; then
+#if [ "$1" == "$HOSTNAME" ]; then
 #  if [ -f dir_list_namenode ]; then cat dir_list_namenode|xargs sudo mkdir -p; fi
-  change_hdfs_dir dir_list_namenode 
-else
+  if [ -f dir_list_namenode ]; then change_hdfs_dir dir_list_namenode ; fi
+#else
 #  if [ -f dir_list_datanode ]; then cat dir_list_datanode|xargs sudo mkdir -p; fi
-  change_hdfs_dir dir_list_datanode
-fi 
-
+  if [ -f dir_list_datanode ]; then change_hdfs_dir dir_list_datanode ; fi
+#fi 
 echo "*                soft    nofile          100000" | sudo tee -a  /etc/security/limits.conf
 echo "*                hard    nofile          100000" | sudo tee -a  /etc/security/limits.conf
 

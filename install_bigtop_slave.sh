@@ -1,7 +1,8 @@
 #!/bin/bash
 set -ex
-./install_nodes.sh
-
+./install_nodes.sh $1
+sudo sed -i s/localhost/$1/ /etc/hadoop/conf/core-site.xml
+./wait_for_hdfs.sh $1
 sudo service hadoop-hdfs-datanode start
 # sudo service hadoop-yarn-nodemanager start
 
