@@ -141,6 +141,16 @@
 
         $ ./install_bigtop_slave.sh <master node hostname>
 
+### Check Status of Hadoop/Spark Services
+
+- On master node, ensure Spark master and HDFS namenode are active:
+
+        $ ./status_master.sh
+
+- On each slave node, ensure Spark worker and HDFS datanode are active:
+
+        $ ./status_slave.sh
+
 ### Benchmark Execution
 
 See the [benchmark](benchmark) directory for detailed instructions on benchmark execution.
