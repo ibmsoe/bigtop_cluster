@@ -136,3 +136,6 @@
 - master node - execute install_bigtop_master.sh
 - on each slave node - execute install_bigtop_slave.sh {master node's hostname}
 
+### Benchmark Execution
+
+See the [benchmark](benchmark) directory for detailed instructions on benchmark execution.
