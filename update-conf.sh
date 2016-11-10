@@ -37,7 +37,7 @@ change_spark_local_dir(){
 value=""
 while read drive
 do
-   value=drive","$value
+   value=$drive","$value
 done < $1
 echo "export SPARK_LOCAL_DIRS=$value" >>/etc/spark/conf/spark-env.sh
 
@@ -53,7 +53,7 @@ echo "spark.driver.cores                8" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.history.fs.logDirectory   hdfs://$NAMENODE:8020/directory" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.default.parallelism       480" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.storage.memoryFraction    0.6" >>/etc/spark/conf/spark-defaults.conf
-change_spark_local_dir dir_list_spark
+#change_spark_local_dir dir_list_spark
 
 add_element "yarn.resourcemanager.hostname" "$RESOURCEMANAGER" "/etc/hadoop/conf/yarn-site.xml"
 add_element "yarn.resourcemanager.address" "$RESOURCEMANAGER:8032" "/etc/hadoop/conf/yarn-site.xml"
