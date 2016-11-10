@@ -100,7 +100,7 @@ sr3     11:3    1  1024M  0 rom
 ```
 **Note**: "sda" is being used for the OS, so it cannot be used but all the 5.5T disks [ sdc .... sdm] are good candidates in this case. 
 
-Step 2 - Edit or create ~/bigtop_cluster/disk-list file to include one drive per line, for example:
+Step 2 - Edit or create the a `disk-list` file to include one drive per line, for example:
 ```
 $ cat disk-list.example
 sdb
@@ -117,6 +117,19 @@ sdl
 sdm
 ```
 
+Step 3 - Inspect the `dir_list_*` files (`dir_list_datanode`, `dir_list_namenode`, `dir_list_spark`) and, if necessary, modify according to your configuration.  Note that each disk specified in the prior step's `disk_list` will be mounted at `/hdd<#>` and thus these files specify the set of directories residing on those disks to provide to the hadoop and spark services.  For example:
+
+```
+$ cat dir_list_namenode
+/hdd1/hdfs/name
+/hdd2/hdfs/name
+/hdd3/hdfs/name
+/hdd4/hdfs/name
+/hdd5/hdfs/name
+/hdd6/hdfs/name
+/hdd7/hdfs/name
+/hdd8/hdfs/name
+```
   
 ### Hadoop/Spark Installation
 
