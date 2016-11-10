@@ -2,7 +2,11 @@
 
 Make sure Hadoop HDFS and Spark are started before you start the benchmark execution.
 
-Modify bench-env.sh according to your environment.
+!!! Add section on ssh requirement for cluster-wide fs cache purging.
+
+!!! Add section on acquiring `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2`.
+
+Modify bench-env.sh according to your environment.  Required environment variables are `SPARK_MASTER` and `CLUSTER_NODES`.
  
 ### Spark-Bench Logistics Regression
  
@@ -12,6 +16,7 @@ Login to the master node and run the following commands:
 
 ```
 cd logres
+./update_env.sh
 ./gen_data.sh
 ```
  
