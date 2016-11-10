@@ -44,7 +44,7 @@ echo "export SPARK_LOCAL_DIRS=$value" >>/etc/spark/conf/spark-env.sh
 }
 
 ## Add and init yarn.resourcemanager.address in yarn-site.xml
-sed -i s/localhost/$NAMENODE/ /etc/hadoop/conf/core-site.xml
+sed -i s/localhost/$1/ /etc/hadoop/conf/core-site.xml
 sed -i s/localhost/$RESOURCEMANAGER/ /etc/hadoop/conf/mapred-site.xml
 
 sudo chown -R $USER:hadoop /etc/spark
