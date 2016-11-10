@@ -133,8 +133,13 @@
   
 ### Hadoop/Spark Installation
 
-- master node - execute install_bigtop_master.sh
-- on each slave node - execute install_bigtop_slave.sh {master node's hostname}
+- On master node:
+
+        $ ./install_bigtop_master.sh
+
+- On each slave node:
+
+        $ ./install_bigtop_slave.sh <master node hostname>
 
 ### Benchmark Execution
 
