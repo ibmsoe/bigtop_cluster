@@ -1,12 +1,19 @@
 ## Benchmark Execution Guide
 
-Make sure Hadoop HDFS and Spark are started before you start the benchmark execution.
+### Prerequites
 
-!!! Add section on ssh requirement for cluster-wide fs cache purging.
+1. Make sure Hadoop HDFS and Spark services are active on all nodes before starting benchmark execution.
 
-!!! Add section on acquiring `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2` on all nodes.
+2. On all nodes, place/unpack the `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2` directories into the `benchmark` directory.
 
-Modify bench-env.sh according to your environment.  Required environment variables are `SPARK_MASTER` and `CLUSTER_NODES`.
+  *These are currently externally provided.*
+
+3. On the master node, modify `bench-env.sh` according to your environment.
+
+  Required environment variables are `SPARK_MASTER` and `CLUSTER_NODES`.
+
+Note:  For consistency of benchmark results, these scripts include a step to clear OS caches (via /proc/sys/vm/drop_caches) on all nodes prior to each run.  This is done by visiting each node specified in `CLUSTER_NODES` and using `ssh` to execute the required command.
+
  
 ### Spark-Bench Logistics Regression
  
