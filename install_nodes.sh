@@ -1,4 +1,7 @@
 #!/bin/bash
+
+MASTERNODE=$1
+
 set -ex
 sudo apt-get update
 sudo apt-get install -y python wget openssl liblzo2-2 openjdk-8-jdk unzip netcat-openbsd apt-utils openssh-server libsnappy1v5 libsnappy-java ntp cpufrequtils
@@ -65,3 +68,15 @@ sudo chown -R yarn:hadoop /var/log/hadoop-yarn*
 sudo chown -R mapred:hadoop /var/log/hadoop-mapred*
 sudo chown -R $USER:hadoop /etc/hadoop
 #./update-conf.sh $HOSTNAME $HOSTNAME
+
+### Spark configuration
+echo "export SPARK_MASTER_IP=$MASTERNODE"  |sudo tee -a /etc/spark/conf/spark-env.sh
+sudo chown -R $USER:hadoop /etc/spark
+cp /etc/spark/conf/spark-defaults.conf.template /etc/spark/conf/spark-defaults.conf
+echo "spark.master                     spark://$MASTERNODE:7077" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.eventLog.enabled           true" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.eventLog.dir               hdfs://$MASTERNODE:8020/directory" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.yarn.am.memory             1024m" >>/etc/spark/conf/spark-defaults.conf
+
+cp /etc/spark/conf/log4j.properties.template /etc/spark/conf/log4j.properties
+echo "log4j.rootCategory=ERROR, console">>/etc/spark/conf/log4j.properties

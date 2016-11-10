@@ -1,6 +1,6 @@
 #!/bin/bash
 set -ex
-./install_nodes.sh
+./install_nodes.sh $HOSTNAME
 ./update-conf.sh $HOSTNAME $HOSTNAME
 ### master node onlly
 sudo sed -i s/localhost/$HOSTNAME/ /etc/hadoop/conf/core-site.xml
@@ -19,20 +19,6 @@ sudo -u hdfs hadoop fs -chown yarn:mapred /var/log/hadoop-yarn
 
 sudo -u hdfs hadoop fs -mkdir -p /user/$USER
 sudo -u hdfs hadoop fs -chown $USER /user/$USER
-
-
-### Spark configuration 
-echo "export SPARK_MASTER_IP=`hostname`"  |sudo tee -a /etc/spark/conf/spark-env.sh
-sudo chown -R $USER:hadoop /etc/spark
-cp /etc/spark/conf/spark-defaults.conf.template /etc/spark/conf/spark-defaults.conf
-echo "spark.master                     spark://$(hostname):7077" >>/etc/spark/conf/spark-defaults.conf
-echo "spark.eventLog.enabled           true" >>/etc/spark/conf/spark-defaults.conf
-echo "spark.eventLog.dir               hdfs://$(hostname):8020/directory" >>/etc/spark/conf/spark-defaults.conf
-echo "spark.yarn.am.memory             1024m" >>/etc/spark/conf/spark-defaults.conf
-
-cp /etc/spark/conf/log4j.properties.template /etc/spark/conf/log4j.properties
-echo "log4j.rootCategory=ERROR, console">>/etc/spark/conf/log4j.properties
-
 sudo -u hdfs hadoop fs -mkdir -p /directory
 sudo -u hdfs hadoop fs -chown -R spark:hadoop /directory
 sudo -u hdfs hdfs dfs -chmod -R 1777 /directory
