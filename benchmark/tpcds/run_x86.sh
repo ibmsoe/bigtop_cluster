@@ -1,9 +1,12 @@
 #!/bin/bash
 
 if [ -z $BENCH_HOME ]; then
-    echo "BENCH_HOME not found in environment."
-    exit 1
+    export BENCH_HOME="$(cd "`dirname "$0"`"/..; pwd)"
 fi
+
+set -a
+. ${BENCH_HOME}/bench-env.sh
+set +a
 
 ${BENCH_HOME}/tpcds/clear_caches.sh
 

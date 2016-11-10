@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [ -z $BENCH_HOME ]; then
-    echo "BENCH_HOME not found in environment."
-    exit 1
-fi
 if [ -z $SPARK_MASTER ]; then
     echo "SPARK_MASTER not found in environment."
     exit 1
+fi
+
+if [ -z $BENCH_HOME ]; then
+    export BENCH_HOME="$(cd "`dirname "$0"`"/..; pwd)"
 fi
 
 if [ $# -ne 6 ]; then
