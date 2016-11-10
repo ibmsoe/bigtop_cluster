@@ -44,13 +44,13 @@ echo "export SPARK_LOCAL_DIRS=$value" >>/etc/spark/conf/spark-env.sh
 }
 
 ## Add and init yarn.resourcemanager.address in yarn-site.xml
-sed -i s/localhost/$1/ /etc/hadoop/conf/core-site.xml
+sed -i s/localhost/$NAMENODE/ /etc/hadoop/conf/core-site.xml
 sed -i s/localhost/$RESOURCEMANAGER/ /etc/hadoop/conf/mapred-site.xml
 
 sudo chown -R $USER:hadoop /etc/spark
 echo "spark.driver.memory             20g" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.driver.cores                8" >>/etc/spark/conf/spark-defaults.conf
-echo "spark.history.fs.logDirectory   hdfs://$(hostname):8020/directory" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.history.fs.logDirectory   hdfs://$NAMENODE:8020/directory" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.default.parallelism       480" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.storage.memoryFraction    0.6" >>/etc/spark/conf/spark-defaults.conf
 change_spark_local_dir dir_list_spark
