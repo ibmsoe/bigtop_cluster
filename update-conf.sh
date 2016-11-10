@@ -52,12 +52,14 @@ add_element "dfs.namenode.datanode.registration.ip-hostname-check" "false" "/etc
 
 ### Apple PoC specific 
 ./prep-disks.sh
+#udo chmod 1777 -R /hdd*
+sudo chown -R $USER:hadoop /hdd*
 
 if [ "$1" == "$HOSTNAME" ]; then
-  if [ -f dir_list_namenode ]; then cat dir_list_namenode|xargs sudo mkdir -p; fi
+#  if [ -f dir_list_namenode ]; then cat dir_list_namenode|xargs sudo mkdir -p; fi
   change_hdfs_dir dir_list_namenode 
 else
-  if [ -f dir_list_datanode ]; then cat dir_list_datanode|xargs sudo mkdir -p; fi
+#  if [ -f dir_list_datanode ]; then cat dir_list_datanode|xargs sudo mkdir -p; fi
   change_hdfs_dir dir_list_datanode
 fi 
 

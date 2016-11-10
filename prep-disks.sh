@@ -4,6 +4,7 @@
 if [ -f disk-list ]; then
 echo "start"
 sudo cp /etc/fstab /etc/fstab.$$
+j=1;
 
 while read i
 do
@@ -20,5 +21,6 @@ do
     #getting the UUID for the disk
     uuid=$(blkid /dev/${i} | awk '{print $2}')
     echo "${uuid} /hdd${j} ext4 noatime,nodiratime 0 0" | sudo tee -a /etc/fstab; #inserting UUID into fstab  
+    j=$[$j+1]
 done < disk-list
 fi
