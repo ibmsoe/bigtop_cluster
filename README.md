@@ -2,7 +2,7 @@
 
 ![Alt text](http://www.scientificcomputing.com/sites/scientificcomputing.com/files/openpower_foundation_ml.jpg)
 ![Alt text](https://cwiki.apache.org/confluence/download/thumbnails/27850921/pb-bigtop.png?version=1&modificationDate=1413827725000&api=v2)
-#### This README describes scripts and tools to get the Apache BigTop v 1.1 bundle up and running quickly with minimum intervention required in both single node and multi nodes environment.
+#### This README describes scripts and tools to get the Apache BigTop v 1.1 bundle up and running quickly with minimum intervention required in both single node and multi nodes environment.  Linux system administration knowledge is assumed (package installation, network configuration, etc.).
 ##### The goal of this project is to automate download, install, and configuration of the following components:
 - Java Open JDK 1.8 
 - Apache Bigtop  v1.1+ 
@@ -26,7 +26,7 @@
 -   cleanup.sh - Uninstall existing Hadoop and Spark, Prepares the system for the install_bigtop.sh.
 -	restart-master.sh - A convenient way to restart all BigTop components in master node.
 -	restart-slave.sh - A convenient way to restart all BigTop components in slave node.
--	Status.sh - JPS does not automatically produce the component status. This script will report BigTop component current status.
+-	status.sh - JPS does not automatically produce the component status. This script will report BigTop component current status.
 -	sparkTest.sh - A quick workload provided to verify that Spark is working as desired.
 -	hadoopTest.sh - A quick test script to aid in verifying the Hadoop configuration.
 
@@ -43,27 +43,28 @@ sudo passwd ubuntu
 su ubuntu
 cd ~
 ```
-- Mapping the nodes - You have to edit hosts file in /etc/ folder on ALL nodes, specify the IP address of each system followed by their host names. Example
+- Mapping the nodes - You have to edit hosts file in /etc/ folder on ALL nodes, specify the IP address of each system followed by their host names. For example:
 ```
-# sudo vim /etc/hosts
-Append the following lines in the /etc/hosts file.
+# sudo vi /etc/hosts
 192.168.1.1 hadoop-master 
 192.168.1.2 hadoop-slave-1 
 192.168.1.3 hadoop-slave-2
-.....
-.....
+...
+...
 ```
-- Download Install and Configuration Scripts
+- Download Install and Configuration Scripts.
 On each node do:
 ```
-$git clone -b app-poc https://github.com/ibmsoe/bigtop_cluster.git
+$ git clone -b app-poc https://github.com/ibmsoe/bigtop_cluster.git
 ```
 or
 ``` 
-$wget https://github.com/ibmsoe/bigtop_cluster/archive/app-poc.zip
-$unzip app-poc.xip
+$ wget https://github.com/ibmsoe/bigtop_cluster/archive/app-poc.zip
+$ unzip app-poc.zip
 ```
-- (optional) Identify Hard Disks to be allocated for used by Hadoop
+cd into the downloaded respository directory to continue.
+
+- Identify Hard Disks to be allocated for used by Hadoop
 
     >**WARNING - A distructive operation** 
     >Identify the hard drives available for use for Hadoop cluster. Be sure the disks selected 
@@ -129,11 +130,11 @@ $ cat dir_list_namenode
 /hdd6/hdfs/name
 /hdd7/hdfs/name
 /hdd8/hdfs/name
+...
 ```
   
 ### Hadoop/Spark Installation
 
-- Update the update-conf.sh script with the specific parameters for the cluster and replicate this updated version to each node.
 - master node - execute install_bigtop_master.sh
 - on each slave node - execute install_bigtop_slave.sh {master node's hostname}
 
