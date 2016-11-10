@@ -43,6 +43,6 @@ if [ -f disk-list ]; then
   done < disk-list
 
   # Replace the fstab with our newly created one
-  # sudo mv fstab.tmp /etc/fstab
+  sudo mv fstab.tmp /etc/fstab
 
 fi
