@@ -4,7 +4,7 @@ Make sure Hadoop HDFS and Spark are started before you start the benchmark execu
 
 !!! Add section on ssh requirement for cluster-wide fs cache purging.
 
-!!! Add section on acquiring `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2`.
+!!! Add section on acquiring `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2` on all nodes.
 
 Modify bench-env.sh according to your environment.  Required environment variables are `SPARK_MASTER` and `CLUSTER_NODES`.
  
