@@ -73,6 +73,9 @@ sudo chown -R hdfs:hadoop /hdd*
 #else
 #  if [ -f dir_list_datanode ]; then cat dir_list_datanode|xargs sudo mkdir -p; fi
   if [ -f dir_list_datanode ]; then change_hdfs_dir dir_list_datanode ; fi
+  if [ -f dir_list_spark ]; then change_spark_local_dir dir_list_spark ; fi
+  if [ -f dir_list_spark ]; then cat dir_list_spark |xargs sudo mkdir -p; fi
+sudo chown -R spark:spark /hdd*/spark/*
 #fi 
 echo "*                soft    nofile          100000" | sudo tee -a  /etc/security/limits.conf
 echo "*                hard    nofile          100000" | sudo tee -a  /etc/security/limits.conf
