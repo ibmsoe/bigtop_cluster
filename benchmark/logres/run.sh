@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [ -z $BENCH_HOME ]; then
-    export BENCH_HOME="$(cd "`dirname "$0"`"/..; pwd)"
+if [ -z $BIGTOP_BENCH_DIR ]; then
+    export BIGTOP_BENCH_DIR="$(cd "`dirname "$0"`"/..; pwd)"
 fi
 
 set -a
-. ${BENCH_HOME}/bench-env.sh
+. ${BIGTOP_BENCH_DIR}/bench-env.sh
 set +a
 
-cd ${BENCH_HOME}/spark-bench/LogisticRegression/bin
+cd ${BIGTOP_BENCH_DIR}/spark-bench/LogisticRegression/bin
 ./run.sh

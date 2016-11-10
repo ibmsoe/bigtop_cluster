@@ -1,15 +1,15 @@
 #!/bin/bash
 
-if [ -z $BENCH_HOME ]; then
-    export BENCH_HOME="$(cd "`dirname "$0"`"/..; pwd)"
+if [ -z $BIGTOP_BENCH_DIR ]; then
+    export BIGTOP_BENCH_DIR="$(cd "`dirname "$0"`"/..; pwd)"
 fi
 
 set -a
-. ${BENCH_HOME}/bench-env.sh
+. ${BIGTOP_BENCH_DIR}/bench-env.sh
 set +a
 
-${BENCH_HOME}/tpcds/clear_caches.sh
+${BIGTOP_BENCH_DIR}/tpcds/clear_caches.sh
 
-echo "Start to run TPC-DS query. Keep this ssh seesion alive. Open another ssh session and check the .nohup in ${BENCH_HOME}/tpcds for progress. This step would take around 9 minutes on POWER8 and more time on x86..."
+echo "Start to run TPC-DS query. Keep this ssh seesion alive. Open another ssh session and check the .nohup in ${BIGTOP_BENCH_DIR}/tpcds for progress. This step would take around 9 minutes on POWER8 and more time on x86..."
 
-${BENCH_HOME}/tpcds/run_single_tpcds_v1.4.sh q68 16 4 30g 200 4
+${BIGTOP_BENCH_DIR}/tpcds/run_single_tpcds_v1.4.sh q68 16 4 30g 200 4

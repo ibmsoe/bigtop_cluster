@@ -1,6 +1,6 @@
 import com.databricks.spark.sql.perf.tpcds.Tables
 
-val bench_home = System.getenv("BENCH_HOME")
+val bench_home = System.getenv("BIGTOP_BENCH_DIR")
 val hdfs_dest = "hdfs:///TPCDS-10TB"
 val size = 100
 
