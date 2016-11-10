@@ -53,6 +53,7 @@ echo "spark.driver.cores                8" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.history.fs.logDirectory   hdfs://$NAMENODE:8020/directory" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.default.parallelism       480" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.storage.memoryFraction    0.6" >>/etc/spark/conf/spark-defaults.conf
+sed -i '/SPARK_HISTORY_OPTS/d' /etc/spark/conf/spark-env.sh
 #change_spark_local_dir dir_list_spark
 
 add_element "yarn.resourcemanager.hostname" "$RESOURCEMANAGER" "/etc/hadoop/conf/yarn-site.xml"
