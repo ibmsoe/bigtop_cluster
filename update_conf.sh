@@ -66,7 +66,7 @@ add_element "dfs.namenode.datanode.registration.ip-hostname-check" "false" "/etc
 
 
 ### Apple PoC specific 
-./prep-disks.sh
+./prep_disks.sh
 #udo chmod 1777 -R /hdd*
 sudo chown -R hdfs:hadoop /hdd*
 

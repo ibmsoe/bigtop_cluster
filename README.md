@@ -24,8 +24,8 @@
 - install_bigtop_slave.sh - Downloads, installs, configures and starts all of the components listed above on slave node.
 - status_master.sh - Reports current BigTop component status on master node.
 - status_slave.sh - Reports current BigTop component status on slave node.
-- start-master.sh - Restarts all BigTop components on master node.
-- start-slave.sh - Restarts all BigTop components on slave node.
+- start_master.sh - Restarts all BigTop components on master node.
+- start_slave.sh - Restarts all BigTop components on slave node.
 - sparkTest.sh - A quick workload provided to verify that Spark is working as desired.
 - cleanup.sh - Uninstalls existing Hadoop and Spark, Prepares the system for install scripts.
 
@@ -109,9 +109,9 @@
 
     **Note**: An ideal configuration will specify as many identically-sized SSD disks as possible. In the example above, `sda` is being used for the OS, so it cannot be used, but all the 5.5T disks `[sdc ... sdm]` are good candidates.
 
-  2. Create the a `disk-list` file to include one drive per line, for example:
+  2. Create the a `disk_list` file to include one drive per line, for example:
 
-          $ cat disk-list.example
+          $ cat disk_list.example
           sdc
           sdd
           sde

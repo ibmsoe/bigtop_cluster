@@ -1,7 +1,9 @@
 #!/bin/bash
 set -ex
+
 ./install_nodes.sh $HOSTNAME
-./update-conf.sh $HOSTNAME $HOSTNAME
+./update_conf.sh $HOSTNAME $HOSTNAME
+
 ### master node onlly
 sudo sed -i s/localhost/$HOSTNAME/ /etc/hadoop/conf/core-site.xml
 sudo -u hdfs hdfs namenode -format -force

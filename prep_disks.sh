@@ -1,7 +1,7 @@
 #!/bin/bash
-# please populate the disk-list file with disk names 
+# please populate the disk_list file with disk names
 
-if [ -f disk-list ]; then
+if [ -f disk_list ]; then
   echo "start"
   sudo cp /etc/fstab /etc/fstab.$$
   j=1;
@@ -21,7 +21,7 @@ if [ -f disk-list ]; then
   while read i
   do
       sudo umount /dev/${i}
-  done < disk-list
+  done < disk_list
 
   # Now let's format the disks, mount them, and add the fstab entry
   while read i
@@ -40,7 +40,7 @@ if [ -f disk-list ]; then
     uuid=$(sudo blkid /dev/${i} | awk '{print $2}')
     echo "${uuid} /hdd${j} ext4 noatime,nodiratime 0 0" >> fstab.tmp #inserting UUID into fstab
     j=$[$j+1]
-  done < disk-list
+  done < disk_list
 
   # Replace the fstab with our newly created one
   sudo mv fstab.tmp /etc/fstab
