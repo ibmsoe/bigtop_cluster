@@ -1,3 +1,4 @@
+#!/bin/bash
 
 #### BigTOP Services Status
 GREEN='\033[0;32m'
