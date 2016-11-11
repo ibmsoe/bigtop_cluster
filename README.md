@@ -102,7 +102,7 @@
 
     **Note**: An ideal configuration will specify as many identically-sized SSD disks as possible. In the example above, `sda` is being used for the OS, so it cannot be used, but all the 5.5T disks `[sdc ... sdm]` are good candidates.
 
-  2. Edit or create the a `disk-list` file to include one drive per line, for example:
+  2. Create the a `disk-list` file to include one drive per line, for example:
 
           $ cat disk-list.example
           sdc
@@ -117,9 +117,9 @@
           sdl
           sdm
 
-  3. Inspect the `dir_list_*` files (`dir_list_datanode`, `dir_list_namenode`, `dir_list_spark`) and modify according to your configuration.  Note that each disk specified in the prior step's `disk_list` will be mounted at `/hdd<#>` and thus these files specify the set of directories residing on those disks to provide to the hadoop and spark services.  An ideal configuration will specify one directory on each mounted drive. For example:
+  3. Create the `dir_list_*` files (`dir_list_datanode`, `dir_list_namenode`, `dir_list_spark`) according to your configuration.  Note that each disk specified in the prior step's `disk_list` will be mounted at `/hdd<#>` and thus these files specify the set of directories residing on those disks to provide to the hadoop and spark services.  An ideal configuration will specify one directory on each mounted drive. For example:
 
-          $ cat dir_list_namenode
+          $ cat dir_list_namenode.example
           /hdd1/hdfs/name
           /hdd2/hdfs/name
           /hdd3/hdfs/name
@@ -128,7 +128,9 @@
           /hdd6/hdfs/name
           /hdd7/hdfs/name
           /hdd8/hdfs/name
-          ...
+          /hdd9/hdfs/name
+          /hdd10/hdfs/name
+          /hdd11/hdfs/name
   
 ### Hadoop/Spark Installation
 
@@ -138,7 +140,7 @@
 
 - On each slave node:
 
-        $ ./install_bigtop_slave.sh <master node hostname>
+        $ ./install_bigtop_slave.sh <hostname-of-masternode>
 
 ### Check Status of Hadoop/Spark Services
 
