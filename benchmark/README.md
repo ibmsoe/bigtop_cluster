@@ -1,6 +1,6 @@
 ## Benchmark Execution Guide
 
-### Prerequites
+### Prerequisites
 
 1. Make sure Hadoop HDFS and Spark services are active on all nodes before starting benchmark execution.
 
