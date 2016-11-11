@@ -100,12 +100,11 @@
           sr2     11:2    1  1024M  0 rom  
           sr3     11:3    1  1024M  0 rom  
 
-    **Note**: "sda" is being used for the OS, so it cannot be used but all the 5.5T disks [ sdc .... sdm] are good candidates in this case. 
+    **Note**: An ideal configuration will specify as many identically-sized SSD disks as possible. In the example above, `sda` is being used for the OS, so it cannot be used, but all the 5.5T disks `[sdc ... sdm]` are good candidates.
 
   2. Edit or create the a `disk-list` file to include one drive per line, for example:
 
           $ cat disk-list.example
-          sdb
           sdc
           sdd
           sde
