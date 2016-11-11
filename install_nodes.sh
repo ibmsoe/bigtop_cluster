@@ -69,6 +69,9 @@ sudo chown -R mapred:hadoop /var/log/hadoop-mapred*
 sudo chown -R $USER:hadoop /etc/hadoop
 #./update-conf.sh $HOSTNAME $HOSTNAME
 
+# Support $HADOOP_HOME/bin/hdfs
+ln -s /usr/bin/hdfs $HADOOP_HOME/bin/hdfs
+
 ### Spark configuration
 echo "export SPARK_MASTER_IP=$MASTERNODE"  |sudo tee -a /etc/spark/conf/spark-env.sh
 sudo chown -R $USER:hadoop /etc/spark
