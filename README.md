@@ -144,11 +144,11 @@
 
 ### Check Status of Hadoop/Spark Services
 
-- On master node, ensure Spark master and HDFS namenode are active:
+- On master node, ensure `spark-master`, `spark-history-server` and `hadoop-hdfs-namenode` are active:
 
         $ ./status_master.sh
 
-- On each slave node, ensure Spark worker and HDFS datanode are active:
+- On each slave node, ensure `spark-worker` and `hadoop-hdfs-datanode` are active:
 
         $ ./status_slave.sh
 
