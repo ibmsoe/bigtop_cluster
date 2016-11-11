@@ -20,7 +20,7 @@ sudo -u hdfs hadoop fs -chown yarn:mapred /var/log/hadoop-yarn
 sudo -u hdfs hadoop fs -mkdir -p /user/$USER
 sudo -u hdfs hadoop fs -chown $USER /user/$USER
 sudo -u hdfs hadoop fs -mkdir -p /directory
-sudo -u hdfs hadoop fs -chown -R spark:hadoop /directory
+#sudo -u hdfs hadoop fs -chown -R spark:hadoop /directory
 sudo -u hdfs hdfs dfs -chmod -R 1777 /directory
 sudo -u hdfs hdfs dfs -mkdir -p  /var/log/spark/apps
 sudo -u hdfs hdfs dfs -chown -R $USER:hadoop /var/log/spark
