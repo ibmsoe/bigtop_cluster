@@ -4,13 +4,16 @@
 
 1. Make sure Hadoop HDFS and Spark services are active on all nodes before starting benchmark execution.
 
-2. On all nodes, place/unpack the `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2` directories into the `benchmark` directory.
+2. On each node, place/unpack the `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2` directories into the `benchmark` directory.
 
   *These are currently externally provided.*
 
-3. On the master node, modify `bench-env.sh` according to your environment.
+3. On each node, execute `./tune.sh` to set the appropriate CPU performance and SMT modes.
+
+4. On the master node, modify `bench-env.sh` according to your environment.
 
   Required environment variables are `SPARK_MASTER` and `CLUSTER_NODES`.
+
 
 Note:  For consistency of benchmark results, these scripts include a step to clear OS caches (via /proc/sys/vm/drop_caches) on all nodes prior to each run.  This is done by visiting each node specified in `CLUSTER_NODES` and using `ssh` to execute the required command.
 
