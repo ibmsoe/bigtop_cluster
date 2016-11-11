@@ -4,7 +4,7 @@ for x in `cd /etc/init.d ; ls hadoop-*` ; do sudo service $x stop ; done
 for x in `cd /etc/init.d ; ls spark-*` ; do sudo service $x stop ; done
 sudo ps -aux | grep java | awk '{print $2}' | sudo xargs kill
 
-sudo rm -rf /var/lib/hadoop/bin/hdfs
+sudo rm -rf /usr/lib/hadoop/bin/hdfs
 sudo apt-get purge -y hadoop*
 sudo apt-get purge -y spark-*
 sudo apt-get purge -y zeppelin*
