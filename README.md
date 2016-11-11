@@ -45,13 +45,20 @@
         su ubuntu
         cd ~
 
-2. Mapping the nodes - Edit `/etc/hosts`, specify the IP address of each system followed by their host names. For example:
+2. Mapping the nodes
+
+  Edit `/etc/hosts`, specify the IP address of each system followed by their host names. For example:
 
         # sudo vi /etc/hosts
         192.168.1.1 hadoop-master 
         192.168.1.2 hadoop-slave-1 
         192.168.1.3 hadoop-slave-2
         ...
+
+  **Note:** In the event of a public/private network configuration, ensure that each node's `hostname` reflects the IP address over which the cluster services should communicate. For example, on the master node:
+    
+        $ hostname
+        hadoop-master            
 
 3. Download install and configuration scripts:
 
