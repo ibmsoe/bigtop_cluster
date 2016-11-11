@@ -54,7 +54,7 @@ echo "spark.driver.memory             20g" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.driver.cores                8" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.history.fs.logDirectory   hdfs://$NAMENODE:8020/directory" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.default.parallelism       480" >>/etc/spark/conf/spark-defaults.conf
-echo "spark.storage.memoryFraction    0.6" >>/etc/spark/conf/spark-defaults.conf
+#echo "spark.storage.memoryFraction    0.6" >>/etc/spark/conf/spark-defaults.conf
 sed -i '/SPARK_HISTORY_OPTS/d' /etc/spark/conf/spark-env.sh
 #change_spark_local_dir dir_list_spark
 
@@ -79,6 +79,8 @@ sudo chown -R hdfs:hadoop /hdd*
   if [ -f dir_list_spark ]; then change_spark_local_dir dir_list_spark ; fi
   if [ -f dir_list_spark ]; then cat dir_list_spark |xargs sudo mkdir -p; fi
 sudo chown -R spark:spark /hdd*/spark/*
+sudo chmod -R 1777 /hdd*/spark/* 
+
 #fi 
 echo "*                soft    nofile          100000" | sudo tee -a  /etc/security/limits.conf
 echo "*                hard    nofile          100000" | sudo tee -a  /etc/security/limits.conf
