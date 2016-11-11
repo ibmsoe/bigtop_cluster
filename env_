@@ -1,0 +1,2 @@
+export HADOOP_HOME=/usr/lib/hadoop
+export SPARK_HOME=/usr/lib/spark
