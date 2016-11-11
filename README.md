@@ -55,10 +55,9 @@
         192.168.1.3 hadoop-slave-2
         ...
 
-  **Note:** In the event of a public/private network configuration, ensure that each node's `hostname` reflects the IP address over which the cluster services should communicate. For example, on the master node:
+  **Note:** In the event of a public/private network configuration, ensure that each node's system-wide `hostname` reflects the IP address over which the cluster services should communicate. For example, based on the `/etc/hosts` shown above, the master node's system-wide `hostname` would be set as follows:
     
-        $ hostname
-        hadoop-master            
+        $ sudo hostnamectl set-hostname hadoop-master
 
 3. Download install and configuration scripts:
 
