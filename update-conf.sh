@@ -20,15 +20,17 @@ add_element(){
 }
 
 change_hdfs_dir(){
-pre="file://"
-value=""
+  dir_list=$1
+  name=$2
+  pre="file://"
+  value=""
 
-while read drive
-do
-   value=$pre$drive","$value
-done < $1
+  while read drive
+  do
+    value=$pre$drive","$value
+  done < $dir_list
 
-change_xml_element "dfs.namenode.name.dir" $value "/etc/hadoop/conf/hdfs-site.xml"
+  change_xml_element $name $value "/etc/hadoop/conf/hdfs-site.xml"
 }
 
 
@@ -70,10 +72,10 @@ sudo chown -R hdfs:hadoop /hdd*
 
 #if [ "$1" == "$HOSTNAME" ]; then
 #  if [ -f dir_list_namenode ]; then cat dir_list_namenode|xargs sudo mkdir -p; fi
-  if [ -f dir_list_namenode ]; then change_hdfs_dir dir_list_namenode ; fi
+  if [ -f dir_list_namenode ]; then change_hdfs_dir dir_list_namenode "dfs.namenode.name.dir" ; fi
 #else
 #  if [ -f dir_list_datanode ]; then cat dir_list_datanode|xargs sudo mkdir -p; fi
-  if [ -f dir_list_datanode ]; then change_hdfs_dir dir_list_datanode ; fi
+  if [ -f dir_list_datanode ]; then change_hdfs_dir dir_list_datanode "dfs.datanode.data.dir" ; fi
   if [ -f dir_list_spark ]; then change_spark_local_dir dir_list_spark ; fi
   if [ -f dir_list_spark ]; then cat dir_list_spark |xargs sudo mkdir -p; fi
 sudo chown -R spark:spark /hdd*/spark/*
