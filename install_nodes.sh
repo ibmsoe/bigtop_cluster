@@ -78,7 +78,7 @@ sudo chown -R $USER:hadoop /etc/spark
 cp /etc/spark/conf/spark-defaults.conf.template /etc/spark/conf/spark-defaults.conf
 echo "spark.master                     spark://$MASTERNODE:7077" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.eventLog.enabled           true" >>/etc/spark/conf/spark-defaults.conf
-echo "spark.eventLog.dir               hdfs://$MASTERNODE:8020/directory" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.eventLog.dir               hdfs://$MASTERNODE:8020/history_logs" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.yarn.am.memory             1024m" >>/etc/spark/conf/spark-defaults.conf
 
 cp /etc/spark/conf/log4j.properties.template /etc/spark/conf/log4j.properties
