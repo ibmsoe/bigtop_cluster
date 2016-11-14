@@ -28,7 +28,7 @@ change_hdfs_dir(){
     while read i
     do
         if [ -z $i ]; then continue; fi
-        dir_name="file://hdd${j}/${suffix}"
+        dir_name="file:///hdd${j}/${suffix}"
         if [ -z $value ]; then
             value=${dir_name}
         else
