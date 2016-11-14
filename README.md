@@ -70,7 +70,7 @@
 
   *cd into the downloaded respository directory to continue.*
 
-4. Identify disks and directories to be used by Hadoop:
+4. Identify disks to be used by Hadoop:
 
       >**WARNING - Destructive operation.**
       >
