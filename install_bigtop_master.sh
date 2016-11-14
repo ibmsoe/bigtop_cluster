@@ -22,10 +22,8 @@ sudo -u hdfs hadoop fs -chown yarn:mapred /var/log/hadoop-yarn
 sudo -u hdfs hadoop fs -mkdir -p /user/$USER
 sudo -u hdfs hadoop fs -chown $USER /user/$USER
 sudo -u hdfs hadoop fs -mkdir -p /history_logs
-#sudo -u hdfs hadoop fs -chown -R spark:hadoop /history_logs
-sudo -u hdfs hdfs dfs -chmod -R 1777 /history_logs
-sudo -u hdfs hdfs dfs -mkdir -p  /var/log/spark/apps
-sudo -u hdfs hdfs dfs -chown -R $USER:hadoop /var/log/spark
+sudo -u hdfs hadoop fs -chown -R spark:spark /history_logs
+sudo -u hdfs hadoop fs -chmod -R 1777 /history_logs
 
 #for x in `cd /etc/init.d ; ls spark-*` ; do sudo service $x start ; done
 sudo service spark-master start

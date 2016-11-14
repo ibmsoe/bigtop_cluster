@@ -52,11 +52,7 @@ sed -i s/localhost/$RESOURCEMANAGER/ /etc/hadoop/conf/mapred-site.xml
 sudo chown -R $USER:hadoop /etc/spark
 echo "spark.driver.memory             20g" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.driver.cores                8" >>/etc/spark/conf/spark-defaults.conf
-echo "spark.history.fs.logDirectory   hdfs://$NAMENODE:8020/history_logs" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.default.parallelism       480" >>/etc/spark/conf/spark-defaults.conf
-#echo "spark.storage.memoryFraction    0.6" >>/etc/spark/conf/spark-defaults.conf
-sed -i '/SPARK_HISTORY_OPTS/d' /etc/spark/conf/spark-env.sh
-#change_spark_local_dir dir_list_spark
 
 add_element "yarn.resourcemanager.hostname" "$RESOURCEMANAGER" "/etc/hadoop/conf/yarn-site.xml"
 add_element "yarn.resourcemanager.address" "$RESOURCEMANAGER:8032" "/etc/hadoop/conf/yarn-site.xml"

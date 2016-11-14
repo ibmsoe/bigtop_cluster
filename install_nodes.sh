@@ -72,12 +72,16 @@ sudo chown -R $USER:hadoop /etc/hadoop
 ln -s /usr/bin/hdfs $HADOOP_HOME/bin/hdfs
 
 ### Spark configuration
-echo "export SPARK_MASTER_IP=$MASTERNODE"  |sudo tee -a /etc/spark/conf/spark-env.sh
+SPARK_LOG_DIR=hdfs:///history_logs
 sudo chown -R $USER:hadoop /etc/spark
+sed -i '/SPARK_HISTORY_OPTS/d' /etc/spark/conf/spark-env.sh
+echo "export SPARK_MASTER_IP=$MASTERNODE" >>/etc/spark/conf/spark-env.sh
+echo "export SPARK_HISTORY_OPTS=\"\$SPARK_HISTORY_OPTS -Dspark.history.fs.logDirectory=$SPARK_LOG_DIR -Dspark.history.ui.port=18082\"" >>/etc/spark/conf/spark-env.sh
+
 cp /etc/spark/conf/spark-defaults.conf.template /etc/spark/conf/spark-defaults.conf
 echo "spark.master                     spark://$MASTERNODE:7077" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.eventLog.enabled           true" >>/etc/spark/conf/spark-defaults.conf
-echo "spark.eventLog.dir               hdfs://$MASTERNODE:8020/history_logs" >>/etc/spark/conf/spark-defaults.conf
+echo "spark.eventLog.dir               $SPARK_LOG_DIR" >>/etc/spark/conf/spark-defaults.conf
 echo "spark.yarn.am.memory             1024m" >>/etc/spark/conf/spark-defaults.conf
 
 cp /etc/spark/conf/log4j.properties.template /etc/spark/conf/log4j.properties
