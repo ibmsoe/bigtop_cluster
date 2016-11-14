@@ -49,7 +49,7 @@ cd logres
  
 Note: This command can take 170 seconds to complete on the 1+4 POWER8 cluster. 
  
-Verify that the Spark stages completed successfully by checking the Spark event log that is located at `http://<pubic IP of master node>:18080`. 
+Verify that the Spark stages completed successfully by checking the Spark event log that is located at `http://<pubic IP of master node>:18082`. 
  
 Note: The benchmark reports and logs are available in the `spark-bench/num` directory. 
  
@@ -126,4 +126,4 @@ Time taken: 510.62 seconds, Fetched 100 row(s)
 16/10/11 13:51:30 INFO CliDriver: Time taken: 510.62 seconds, Fetched 100 row(s)
 ```
  
-Verify that the Spark stages completed successfully by checking the Spark event log that is located on `http://<public IP of master node>:18080`.
+Verify that the Spark stages completed successfully by checking the Spark event log that is located on `http://<public IP of master node>:18082`.
