@@ -25,8 +25,8 @@ mkdir source; cd $_
 
 if [ $HOSTTYPE = "powerpc64le" ] ; then
 # wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages-ppc64le/BUILD_ENVIRONMENTS=ubuntu-16.04-ppc64le,COMPONENTS=zeppelin,label=ppc64le-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.5.6-1_all.deb
- wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages-ppc64le/BUILD_ENVIRONMENTS=ubuntu-16.04-ppc64le,COMPONENTS=spark,label=ppc64le-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
- unzip archive.zip; mv archive/output/spark/*.deb .; rm -rf archive; rm archive.zip
+ wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages-ppc64le/BUILD_ENVIRONMENTS=ubuntu-16.04-ppc64le,COMPONENTS=spark1,label=ppc64le-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
+ unzip archive.zip; mv archive/output/spark1/*.deb .; rm -rf archive; rm archive.zip
 fi
 if [ $HOSTTYPE = "x86_64" ] ; then
 # wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=zeppelin,label=docker-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.5.6-1_all.deb
