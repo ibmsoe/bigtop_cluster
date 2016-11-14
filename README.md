@@ -45,7 +45,7 @@
         su ubuntu
         cd ~
 
-2. Mapping the nodes
+2. Map the nodes
 
   Edit `/etc/hosts`, specify the IP address of each system followed by their host names. For example:
 
@@ -108,9 +108,9 @@
 
     **Note**: An ideal configuration will specify as many identically-sized SSD disks as possible. In the example above, `sda` is being used for the OS, so it cannot be used, but all the 5.5T disks `[sdc ... sdm]` are good candidates.
 
-  2. Create the a `disk_list` file to include one drive per line, for example:
+  2. Create a new file named `disk_list` that specifies one drive per line, for example:
 
-          $ cat disk_list.example
+          $ cat ./disk_list
           sdc
           sdd
           sde
