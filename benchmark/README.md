@@ -4,7 +4,7 @@
 
 1. Make sure Hadoop HDFS and Spark services are active on all nodes before starting benchmark execution.
 
-2. On each node, place/unpack the `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2` directories into the `benchmark` directory.
+2. On each node, place/unpack the `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2` directories into this package's `benchmark` directory (i.e. where this `README` file resides).
 
   *These are currently externally provided.*
 
@@ -49,7 +49,7 @@ cd logres
  
 Note: This command can take 170 seconds to complete on the 1+4 POWER8 cluster. 
  
-Verify that the Spark stages completed successfully by checking the Spark event log that is located at `http://<master node>:18080`. 
+Verify that the Spark stages completed successfully by checking the Spark event log that is located at `http://<pubic IP of master node>:18080`. 
  
 Note: The benchmark reports and logs are available in the `spark-bench/num` directory. 
  
@@ -126,4 +126,4 @@ Time taken: 510.62 seconds, Fetched 100 row(s)
 16/10/11 13:51:30 INFO CliDriver: Time taken: 510.62 seconds, Fetched 100 row(s)
 ```
  
-Verify that the Spark stages completed successfully by checking the Spark event log that is located on `http://<master node>:18080`.
+Verify that the Spark stages completed successfully by checking the Spark event log that is located on `http://<public IP of master node>:18080`.
