@@ -20,7 +20,7 @@ if [ -z $SPARK_VERSION ]; then
 fi
 
 set -ex
-./install_nodes.sh $SPARK_VERSION $HOSTNAME
+./install_node.sh $SPARK_VERSION $HOSTNAME
 ./update_conf.sh $SPARK_VERSION $HOSTNAME $HOSTNAME
 
 ### master node only
@@ -48,18 +48,5 @@ sudo -u hdfs hadoop fs -chmod -R 1777 /history_logs
 sudo service spark-master start
 sudo service spark-history-server start
 
-#cd source
-#sudo RUNLEVEL=1 dpkg -i zeppelin_0.5.6-1_all.deb
-#sudo sed -i -e 's|yarn-client|spark://$(hostname):7077|g' /etc/zeppelin/conf/zeppelin-env.sh
-#sudo sed -i -e 's|ZEPPELIN_PORT=8080|ZEPPELIN_PORT=8888|g' /etc/zeppelin/conf/zeppelin-env.sh
-#echo "export ZEPPELIN_JAVA_OPTS=\"-Dspark.executor.memory=1G -Dspark.cores.max=4\"" |sudo tee -a /etc/zeppelin/conf/zeppelin-env.sh
-#cd ~ 
 sudo chmod -R 1777 /tmp
-#sudo -u hdfs hdfs dfs -mkdir /user/zeppelin
-#sudo -u hdfs hdfs dfs -chown -R zeppelin /user/zeppelin
-#sudo chown -R zeppelin.  /var/log/zeppelin
-#sudo chown -R zeppelin.  /var/run/zeppelin
-#sudo rm /etc/zeppelin/conf.dist/interpreter.json
-#rm -rf source
-#sudo -u zeppelin /usr/lib/zeppelin/bin/zeppelin-daemon.sh restart
 

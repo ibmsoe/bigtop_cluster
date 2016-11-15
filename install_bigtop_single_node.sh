@@ -23,5 +23,8 @@ set -ex
 ./install_bigtop_master.sh --spark-version $SPARK_VERSION
 
 sudo service hadoop-hdfs-datanode start
+
+# sudo service hadoop-yarn-nodemanager start
+
 sudo service spark-worker start
 

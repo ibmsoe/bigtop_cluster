@@ -22,13 +22,15 @@ if [[ -z $SPARK_VERSION || -z $MASTERNODE ]]; then
 fi
 
 set -ex
-./install_nodes.sh $SPARK_VERSION $MASTERNODE
+./install_node.sh $SPARK_VERSION $MASTERNODE
 ./update_conf.sh $SPARK_VERSION $MASTERNODE $MASTERNODE
 
-#sudo sed -i s/localhost/$1/ /etc/hadoop/conf/core-site.xml
 ./wait_for_hdfs.sh $MASTERNODE
+
 sudo service hadoop-hdfs-datanode start
+
 # sudo service hadoop-yarn-nodemanager start
+
 sudo service spark-worker start
 
 sudo chmod -R 1777 /tmp
