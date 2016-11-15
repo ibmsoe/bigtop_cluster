@@ -1,8 +1,16 @@
 #!/bin/bash
 
-MASTERNODE=$1
+SPARK_VERSION=$1
+MASTERNODE=$2
+
+case $SPARK_VERSION in
+    1.6.2 ) SPARK_COMPONENT="spark1" ;;
+    2.0.1 ) SPARK_COMPONENT="spark" ;;
+    * ) echo "Unsupported spark version: \"$SPARK_VERSION\""; exit 1 ;;
+esac
 
 set -ex
+
 sudo apt-get update
 sudo apt-get install -y python wget openssl liblzo2-2 openjdk-8-jdk unzip netcat-openbsd apt-utils openssh-server libsnappy1v5 libsnappy-java ntp cpufrequtils
 sudo wget -O- http://archive.apache.org/dist/bigtop/bigtop-1.1.0/repos/GPG-KEY-bigtop | sudo apt-key add -
@@ -19,19 +27,23 @@ fi
 sudo apt-get update
 
 
-wrk_dir=$PWD
-if [ ! -d source  ] ; then
-mkdir source; cd $_
+pkg_dir=$PWD/pkg_spark-$SPARK_VERSION
+if [ ! -d $pkg_dir  ] ; then
+mkdir $pkg_dir; cd $_
 
 if [ $HOSTTYPE = "powerpc64le" ] ; then
 # wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages-ppc64le/BUILD_ENVIRONMENTS=ubuntu-16.04-ppc64le,COMPONENTS=zeppelin,label=ppc64le-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.5.6-1_all.deb
- wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages-ppc64le/BUILD_ENVIRONMENTS=ubuntu-16.04-ppc64le,COMPONENTS=spark1,label=ppc64le-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
- unzip archive.zip; mv archive/output/spark1/*.deb .; rm -rf archive; rm archive.zip
+ wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages-ppc64le/BUILD_ENVIRONMENTS=ubuntu-16.04-ppc64le,COMPONENTS=$SPARK_COMPONENT,label=ppc64le-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
+ unzip archive.zip; mv archive/output/$SPARK_COMPONENT/*.deb .; rm -rf archive; rm archive.zip
 fi
 if [ $HOSTTYPE = "x86_64" ] ; then
+    if [ "$SPARK_COMPONENT" == "spark1" ]; then
+        echo "Spark version 1.6.2 temporarily unavailable for $HOSTTYPE"
+        exit 1
+    fi
 # wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=zeppelin,label=docker-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.5.6-1_all.deb
- wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=spark,label=docker-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
- unzip archive.zip; mv archive/output/spark/*.deb .; rm -rf archive; rm archive.zip
+ wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=$SPARK_COMPONENT,label=docker-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
+ unzip archive.zip; mv archive/output/$SPARK_COMPONENT/*.deb .; rm -rf archive; rm archive.zip
 fi
 
 fi
@@ -39,7 +51,7 @@ fi
 sudo RUNLEVEL=1 apt-get install -y hadoop hadoop-client hadoop-hdfs hadoop-yarn* hadoop-mapred* hadoop-conf* libhdfs_* 
 
 
-cd $wrk_dir/source
+cd $pkg_dir
 sudo  RUNLEVEL=1 dpkg -i spark*.deb 
 cd .. 
 

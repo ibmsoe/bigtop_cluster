@@ -1,8 +1,27 @@
 #!/bin/bash
-set -ex
 
-./install_nodes.sh $HOSTNAME
-./update_conf.sh $HOSTNAME $HOSTNAME
+usage() {
+    echo "usage: $(basename $0) --spark-version <spark version>"
+    echo "    where:"
+    echo "        <spark version> is one of [\"1.6.2\", \"2.0.1\"]"
+    exit 1;
+}
+
+while [ ! -z $1 ]; do
+    case "$1" in
+        --spark-version ) shift; SPARK_VERSION=$1 ;;
+        * ) usage ;;
+    esac
+    shift
+done
+
+if [ -z $SPARK_VERSION ]; then
+    usage
+fi
+
+set -ex
+./install_nodes.sh $SPARK_VERSION $HOSTNAME
+./update_conf.sh $SPARK_VERSION $HOSTNAME $HOSTNAME
 
 ### master node only
 sudo sed -i s/localhost/$HOSTNAME/ /etc/hadoop/conf/core-site.xml

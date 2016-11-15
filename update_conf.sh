@@ -1,6 +1,8 @@
 #!/bin/bash
-NAMENODE=$1
-RESOURCEMANAGER=$2
+
+SPARK_VERSION=$1
+NAMENODE=$2
+RESOURCEMANAGER=$3
 
 change_xml_element() {
     name=$1

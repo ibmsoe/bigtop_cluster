@@ -127,11 +127,11 @@
 
 - On master node, run the following script:
 
-        $ ./install_bigtop_master.sh
+        $ ./install_bigtop_master.sh --spark-version 1.6.2
 
 - On each slave node, run the following script:
 
-        $ ./install_bigtop_slave.sh <hostname-of-masternode>
+        $ ./install_bigtop_slave.sh --spark-version 1.6.2 --master <hostname-of-masternode>
 
 ### Check Status of Hadoop/Spark Services
 
