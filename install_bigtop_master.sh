@@ -4,7 +4,7 @@ set -ex
 ./install_nodes.sh $HOSTNAME
 ./update_conf.sh $HOSTNAME $HOSTNAME
 
-### master node onlly
+### master node only
 sudo sed -i s/localhost/$HOSTNAME/ /etc/hadoop/conf/core-site.xml
 sudo -u hdfs hdfs namenode -format -force
 sudo rm -rf /var/lib/hadoop-hdfs/cache/hdfs/dfs/data
