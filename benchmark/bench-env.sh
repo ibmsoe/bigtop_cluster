@@ -1,4 +1,4 @@
-# space-separated list of slave nodes
+# space-separated list of all cluster nodes (master and slaves)
 CLUSTER_NODES=""
 
 SPARK_MASTER="spark://`hostname`:7077"
