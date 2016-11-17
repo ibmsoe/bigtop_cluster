@@ -66,13 +66,13 @@ cd tpcds
 ./gen_data.sh
 ```
  
-Do not close the existing ssh session. Open a second ssh session and check the progress of the data generation in the `tpcds/dsgen.scala.out` file.
+Data generation will proceed in the background.  Check the progress in the `tpcds/dsgen.scala.out` file.
  
 Note: This step can take around 11 hours to complete on the 1+4  POWER8 cluster, and can take more time on an equivalent x86 cluster. 
  
 To run the data generation on a x86 cluster, use the `gen_data_x86.sh` script. 
  
-After the `gen_data.sh` script completes, you can check the data by running the following command:
+After the data generation completes, you can check the data by running the following command:
  
 ```
 sudo -u hdfs hdfs dfs -du -h /TPCDS-10TB
@@ -105,19 +105,19 @@ cd tpcds
 ./run.sh
 ```
  
-Do not close the existing ssh session. Open a second ssh session and check the progress of the query in the .nohup file located in `tpcds`.
+The query will proceed in the background.  Check the progress in the `tpcds/q68*.out` file.
  
 Note: This step can take around 9 minutes to complete on the 1+4  POWER8 cluster, and can take more time to complete on an equivalent x86 cluster. 
  
 To run the query on a x86 cluster, you can run the `run_x86.sh` script.
  
-After the `run.sh` script completes, you can check the .nohup file for the elapsed time that Spark took to run the query. 
+After the query completes, you can check the output file for the elapsed time that Spark took to run the query.
  
 To check the elapsed time for the query, run the following command:
 
 ```
 cd tpcds
-grep -e "Time taken" q68*.nohup
+grep -e "Time taken" q68*.out
 ```
 
 The following output is an example:
