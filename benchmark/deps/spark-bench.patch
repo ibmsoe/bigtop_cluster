@@ -1,0 +1,31 @@
+diff --git a/LogisticRegression/bin/config.sh b/LogisticRegression/bin/config.sh
+index 82213fc..7392685 100755
+--- a/LogisticRegression/bin/config.sh
++++ b/LogisticRegression/bin/config.sh
+@@ -18,6 +18,7 @@ OUTPUT_HDFS=${DATA_HDFS}/${APP}/Output
+ APP_MASTER=${SPARK_MASTER}
+ 
+ set_gendata_opt
++SPARK_OPT="--conf spark.rdd.compress=false --conf spark.network.timeout=600 --conf spark.hadoop.dfs.blocksize=512m --conf spark.shuffle.consolidateFiles=true --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.executor.extraJavaOptions=\"-XX:ParallelGCThreads=20 -XX:+AlwaysTenure\" --conf spark.default.parallelism=480 --total-executor-cores 160  --executor-memory 200g --executor-cores 40"
+ set_run_opt
+ 
+ function print_config(){
+diff --git a/LogisticRegression/conf/env.sh b/LogisticRegression/conf/env.sh
+index 9ae5d8f..74402d0 100755
+--- a/LogisticRegression/conf/env.sh
++++ b/LogisticRegression/conf/env.sh
+@@ -1,10 +1,10 @@
+ ## Application parameters #32G date size=400 million examples; 1G= 12.5
+-NUM_OF_EXAMPLES=20000
+-NUM_OF_FEATURES=20
++NUM_OF_EXAMPLES=333333333
++NUM_OF_FEATURES=24
+ ProbOne=0.2
+ EPS=0.5
+-NUM_OF_PARTITIONS=10
++NUM_OF_PARTITIONS=960
+ 
+ MAX_ITERATION=3
+ 
+-SPARK_STORAGE_MEMORYFRACTION=0.5
++SPARK_STORAGE_MEMORYFRACTION=0.6

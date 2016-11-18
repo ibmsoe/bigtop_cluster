@@ -4,7 +4,7 @@
 
 1. You must make sure that the Hadoop HDFS and Spark services are active on all nodes before starting the benchmark process.
 
-2. On each node, copy and unpack the `spark-bench` / `tpcds-kit` / `spark-sql-perf-0.3.2` directories into this package's `benchmark` directory (i.e. where this `README` file resides).
+2. On each node, copy the `spark-bench` / `tpcds-kit` / `spark-sql-perf` directories into this package's `benchmark/deps` directory.
 
   **Note:** These directories are currently externally provided.
 

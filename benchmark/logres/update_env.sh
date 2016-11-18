@@ -8,8 +8,8 @@ set -a
 . ${BIGTOP_BENCH_DIR}/bench-env.sh
 set +a
 
-ENV_SRC=${BIGTOP_BENCH_DIR}/spark-bench/conf/env.sh.template
-ENV_DST=${BIGTOP_BENCH_DIR}/spark-bench/conf/env.sh
+ENV_SRC=${BIGTOP_BENCH_DIR}/deps/spark-bench/conf/env.sh.template
+ENV_DST=${BIGTOP_BENCH_DIR}/deps/spark-bench/conf/env.sh
 
 cp ${ENV_SRC} ${ENV_DST}
 sed -i -e "s/master=\/YOUR\/MASTER/master=\`hostname\`/" ${ENV_DST}

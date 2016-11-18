@@ -8,5 +8,5 @@ set -a
 . ${BIGTOP_BENCH_DIR}/bench-env.sh
 set +a
 
-cd ${BIGTOP_BENCH_DIR}/spark-bench/LogisticRegression/bin
+cd ${BIGTOP_BENCH_DIR}/deps/spark-bench/LogisticRegression/bin
 ./run.sh
