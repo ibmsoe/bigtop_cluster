@@ -2,7 +2,7 @@
 
 ![Alt text](http://www.scientificcomputing.com/sites/scientificcomputing.com/files/openpower_foundation_ml.jpg)
 ![Alt text](https://cwiki.apache.org/confluence/download/thumbnails/27850921/pb-bigtop.png?version=1&modificationDate=1413827725000&api=v2)
-#### This README describes scripts and tools to get the Apache BigTop v 1.1 bundle up and running quickly with minimum intervention required in a multi-node environment.  Linux system administration knowledge is assumed (package installation, network configuration, etc.).
+#### This README describes the scripts and tools you can use to get the Apache BigTop v 1.1 bundle up and running quickly with minimum intervention in a multi-node environment.  This README assumes you have Linux system administration knowledge (package installation, network configuration, etc.).
 ##### The goal of this project is to automate download, install, and configuration of the following components:
 - Java Open JDK 1.8 
 - Apache Bigtop  v1.1+ 
@@ -19,24 +19,24 @@
 - snappy
 - lzo
 
-##### A Brief Outline of scripts included in this project and their function follows:
+##### The following scripts are included in this project:
 - install_bigtop_master.sh - Downloads, installs, configures and starts all of the components listed above on master node.
 - install_bigtop_slave.sh - Downloads, installs, configures and starts all of the components listed above on slave node.
 - status_master.sh - Reports current BigTop component status on master node.
 - status_slave.sh - Reports current BigTop component status on slave node.
 - start_master.sh - Restarts all BigTop components on master node.
 - start_slave.sh - Restarts all BigTop components on slave node.
-- sparkTest.sh - A quick workload provided to verify that Spark is working as desired.
-- cleanup.sh - Uninstalls existing Hadoop and Spark, Prepares the system for install scripts.
+- sparkTest.sh - A quick workload is provided to verify that Spark is working as desired.
+- cleanup.sh - Restores the system to its state prior to running install scripts. Uninstalls the existing Hadoop and Spark packages.
 
-# Lets Start 
+# Let's Start 
 ### Platform requirements 
 - Ubuntu 16.04
 - OpenPower or x86 architecture 
 
 ### Initial Node prep
 
-*Perform the following steps on each node in the cluster.*
+*Complete the following steps on each node in the cluster:*
 
 1. Create user account:
 
@@ -47,7 +47,7 @@
 
 2. Map the nodes
 
-  Edit `/etc/hosts`, specify the IP address of each system followed by their host names. For example:
+  Edit the `/etc/hosts` file to specify the IP address of each system followed by their host names. For example:
 
       $ sudo vi /etc/hosts
       192.168.1.1 hadoop-master 
@@ -55,11 +55,11 @@
       192.168.1.3 hadoop-slave-2
       ...
 
-  **Note:** In the event of a public/private network configuration, ensure that each node's system-wide `hostname` reflects the IP address over which the cluster services should communicate. For example, based on the `/etc/hosts` shown above, the master node's system-wide `hostname` would be set as follows:
+  **Note:** In the event of a public/private network configuration, you must ensure that each node's system-wide `hostname` reflects the IP address that you wish to use for cluster communication. For example, based on the `/etc/hosts` file example above, you can set the master node's system-wide `hostname` by running the following command:
     
       $ sudo hostnamectl set-hostname hadoop-master
 
-3. Download install and configuration scripts:
+3. Download the scripts in this repository by running the following commands:
 
         $ git clone -b app-poc https://github.com/ibmsoe/bigtop_cluster.git
 
@@ -68,20 +68,20 @@
       $ wget https://github.com/ibmsoe/bigtop_cluster/archive/app-poc.zip
       $ unzip app-poc.zip
 
-  *cd into the downloaded respository directory to continue.*
+  *cd into the downloaded repository directory to continue.*
 
 4. Identify disks to be used by Hadoop:
 
       >**WARNING - Destructive operation.**
       >
-      >Identify the hard drives available for use for Hadoop cluster. Be sure the disks selected 
+      >You must identify the hard drives available for use by the Hadoop cluster. You must verify that the disks selected 
       >do not include the operating system boot disk or any other disk you want to preserve.
-      >This operation will reformat the disks selected and erase all data. 
-      >This has to be done on each node of the cluster.
+      >The install script reformats the disks selected and erases all data. 
+      >You must complete this process on each node of the cluster.
 
-  1. The following lines describe the process of discovering the disks to use by running lsblk.
-  You may need the help of your system administrator to select the disk you want to be part of the hdfs
-  file system of the cluster.
+  1. The following demonstrates the process of discovering the disks to use by running the `lsblk` command.
+  You might need help from your system administrator to select the disks that you want to be part of the cluster's hdfs
+  file system.
 
           $ sudo  lsblk
           NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
@@ -106,9 +106,9 @@
           sr2     11:2    1  1024M  0 rom  
           sr3     11:3    1  1024M  0 rom  
 
-    **Note**: An ideal configuration will specify as many identically-sized SSD disks as possible. In the example above, `sda` is being used for the OS, so it cannot be used, but all the 5.5T disks `[sdc ... sdm]` are good candidates.
+    **Note**: An ideal configuration includes as many identically-sized SSD disks as possible. In the example above, `sda` is used for the operating system and therefore, it cannot be used. However, all the 5.5T disks `[sdc ... sdm]` can be used.
 
-  2. Create a new file named `disk_list` that specifies one drive per line, for example:
+  2. Create a new file named `disk_list` that specifies one drive per line. For example:
 
           $ cat ./disk_list
           sdc
@@ -125,24 +125,24 @@
 
 ### Hadoop/Spark Installation
 
-- On master node:
+- On master node, run the following script:
 
         $ ./install_bigtop_master.sh
 
-- On each slave node:
+- On each slave node, run the following script:
 
         $ ./install_bigtop_slave.sh <hostname-of-masternode>
 
 ### Check Status of Hadoop/Spark Services
 
-- On master node, ensure `spark-master`, `spark-history-server` and `hadoop-hdfs-namenode` are active:
+- On master node, ensure `spark-master`, `spark-history-server` and `hadoop-hdfs-namenode` are active by running the following script:
 
         $ ./status_master.sh
 
-- On each slave node, ensure `spark-worker` and `hadoop-hdfs-datanode` are active:
+- On each slave node, ensure `spark-worker` and `hadoop-hdfs-datanode` are active, but running the following script:
 
         $ ./status_slave.sh
 
 ### Benchmark Execution
 
-See the [benchmark](benchmark) directory for detailed instructions on benchmark execution.
+For detailed instructions on benchmark execution, see the [benchmark](benchmark) directory.
