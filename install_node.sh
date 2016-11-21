@@ -5,7 +5,7 @@ MASTERNODE=$2
 
 case $SPARK_VERSION in
     1.6.2 ) SPARK_COMPONENT="spark1" ;;
-    2.0.1 ) SPARK_COMPONENT="spark" ;;
+    2.0.2 ) SPARK_COMPONENT="spark" ;;
     * ) echo "Unsupported spark version: \"$SPARK_VERSION\""; exit 1 ;;
 esac
 
@@ -37,10 +37,6 @@ if [ $HOSTTYPE = "powerpc64le" ] ; then
  unzip archive.zip; mv archive/output/$SPARK_COMPONENT/*.deb .; rm -rf archive; rm archive.zip
 fi
 if [ $HOSTTYPE = "x86_64" ] ; then
-    if [ "$SPARK_COMPONENT" == "spark1" ]; then
-        echo "Spark version 1.6.2 temporarily unavailable for $HOSTTYPE"
-        exit 1
-    fi
 # wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=zeppelin,label=docker-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.5.6-1_all.deb
  wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=$SPARK_COMPONENT,label=docker-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
  unzip archive.zip; mv archive/output/$SPARK_COMPONENT/*.deb .; rm -rf archive; rm archive.zip

@@ -3,7 +3,7 @@
 usage() {
     echo "usage: $(basename $0) --spark-version <spark version> --master <master hostname>"
     echo "    where:"
-    echo "        <spark version> is one of [\"1.6.2\", \"2.0.1\"]"
+    echo "        <spark version> is one of [\"1.6.2\", \"2.0.2\"]"
     echo "        <master hostname> is the hostname of the master node"
     exit 1;
 }
