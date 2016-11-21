@@ -19,13 +19,14 @@ if [ ! -d source  ] ; then
 mkdir source; cd $_
 
 if [ $HOSTTYPE = "powerpc64le" ] ; then
- wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages-ppc64le/BUILD_ENVIRONMENTS=ubuntu-16.04-ppc64le,COMPONENTS=zeppelin,label=ppc64le-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.5.6-1_all.deb
+ wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages-ppc64le/BUILD_ENVIRONMENTS=ubuntu-16.04-ppc64le,COMPONENTS=zeppelin,label=ppc64le-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.6.2-1_all.deb
  wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages-ppc64le/BUILD_ENVIRONMENTS=ubuntu-16.04-ppc64le,COMPONENTS=spark,label=ppc64le-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
  unzip archive.zip; mv archive/output/spark/*.deb .; rm -rf archive; rm archive.zip
 fi
 if [ $HOSTTYPE = "x86_64" ] ; then
- wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=zeppelin,label=docker-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.5.6-1_all.deb
- wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=spark,label=ppc64le-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
+# wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=zeppelin,label=docker-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.5.6-1_all.deb
+ wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=zeppelin,label=docker-slave/lastSuccessfulBuild/artifact/output/zeppelin/zeppelin_0.6.2-1_all.deb
+ wget https://ci.bigtop.apache.org/job/Bigtop-trunk-packages/BUILD_ENVIRONMENTS=ubuntu-16.04,COMPONENTS=spark,label=docker-slave/lastSuccessfulBuild/artifact/*zip*/archive.zip
  unzip archive.zip; mv archive/output/spark/*.deb .; rm -rf archive; rm archive.zip
 fi
 
@@ -106,7 +107,7 @@ sudo -u hdfs hdfs dfs -chown -R $USER:hadoop /var/log/spark
 for x in `cd /etc/init.d ; ls spark-*` ; do sudo service $x start ; done
 
 cd source
-sudo RUNLEVEL=1 dpkg -i zeppelin_0.5.6-1_all.deb
+sudo RUNLEVEL=1 dpkg -i zeppelin_0.6.2-1_all.deb
 sudo sed -i -e 's|yarn-client|spark://$(hostname):7077|g' /etc/zeppelin/conf/zeppelin-env.sh
 echo "export ZEPPELIN_JAVA_OPTS=\"-Dspark.executor.memory=1G -Dspark.cores.max=4\"" |sudo tee -a /etc/zeppelin/conf/zeppelin-env.sh
 cd ~ 
