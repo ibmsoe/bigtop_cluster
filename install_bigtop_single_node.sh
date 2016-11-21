@@ -105,10 +105,10 @@ sudo -u hdfs hdfs dfs -mkdir -p  /var/log/spark/apps
 sudo -u hdfs hdfs dfs -chown -R $USER:hadoop /var/log/spark
 
 for x in `cd /etc/init.d ; ls spark-*` ; do sudo service $x start ; done
-
 cd source
 sudo RUNLEVEL=1 dpkg -i zeppelin_0.6.2-1_all.deb
 sudo sed -i -e 's|yarn-client|spark://$(hostname):7077|g' /etc/zeppelin/conf/zeppelin-env.sh
+sudo sed -i -e 's|ZEPPELIN_PORT=8080|ZEPPELIN_PORT=8888|g' /etc/zeppelin/conf/zeppelin-env.sh
 echo "export ZEPPELIN_JAVA_OPTS=\"-Dspark.executor.memory=1G -Dspark.cores.max=4\"" |sudo tee -a /etc/zeppelin/conf/zeppelin-env.sh
 cd ~ 
 sudo chmod -R 1777 /tmp
@@ -118,6 +118,6 @@ sudo chown -R zeppelin.  /var/log/zeppelin
 sudo chown -R zeppelin.  /var/run/zeppelin
 #sudo rm /etc/zeppelin/conf.dist/interpreter.json
 #rm -rf source
-sudo -u zeppelin /usr/lib/zeppelin/bin/zeppelin-daemon.sh restart
-
+#udo -u zeppelin /usr/lib/zeppelin/bin/zeppelin-daemon.sh restart
+sudo service zeppelin restart
 
