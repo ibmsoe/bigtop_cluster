@@ -1,15 +1,3 @@
-diff --git a/LogisticRegression/bin/config.sh b/LogisticRegression/bin/config.sh
-index 82213fc..7392685 100755
---- a/LogisticRegression/bin/config.sh
-+++ b/LogisticRegression/bin/config.sh
-@@ -18,6 +18,7 @@ OUTPUT_HDFS=${DATA_HDFS}/${APP}/Output
- APP_MASTER=${SPARK_MASTER}
- 
- set_gendata_opt
-+SPARK_OPT="--conf spark.rdd.compress=false --conf spark.network.timeout=600 --conf spark.hadoop.dfs.blocksize=512m --conf spark.shuffle.consolidateFiles=true --conf spark.serializer=org.apache.spark.serializer.KryoSerializer --conf spark.executor.extraJavaOptions=\"-XX:ParallelGCThreads=20 -XX:+AlwaysTenure\" --conf spark.default.parallelism=480 --total-executor-cores 160  --executor-memory 200g --executor-cores 40"
- set_run_opt
- 
- function print_config(){
 diff --git a/LogisticRegression/conf/env.sh b/LogisticRegression/conf/env.sh
 index 9ae5d8f..74402d0 100755
 --- a/LogisticRegression/conf/env.sh
@@ -29,3 +17,16 @@ index 9ae5d8f..74402d0 100755
  
 -SPARK_STORAGE_MEMORYFRACTION=0.5
 +SPARK_STORAGE_MEMORYFRACTION=0.6
+diff --git a/bin/funcs.sh b/bin/funcs.sh
+index 52cb6db..068ff49 100755
+--- a/bin/funcs.sh
++++ b/bin/funcs.sh
+@@ -99,7 +99,7 @@ function teardown() {
+ }
+ 
+ function set_gendata_opt() {
+-  SPARK_OPT=
++  SPARK_OPT=${SPARK_OPTS}
+   if [ ! -z "$SPARK_STORAGE_MEMORYFRACTION" ]; then
+     SPARK_OPT="${SPARK_OPT} --conf spark.storage.memoryFraction=${SPARK_STORAGE_MEMORYFRACTION}"
+   fi
