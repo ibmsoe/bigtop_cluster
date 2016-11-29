@@ -61,12 +61,12 @@
 
 3. Download the scripts in this repository by running the following commands:
 
-        $ git clone -b app-poc https://github.com/ibmsoe/bigtop_cluster.git
+        $ git clone -b dev https://github.com/ibmsoe/bigtop_cluster.git
 
   or
 
-      $ wget https://github.com/ibmsoe/bigtop_cluster/archive/app-poc.zip
-      $ unzip app-poc.zip
+      $ wget https://github.com/ibmsoe/bigtop_cluster/archive/dev.zip
+      $ unzip dev.zip
 
   *cd into the downloaded repository directory to continue.*
 
