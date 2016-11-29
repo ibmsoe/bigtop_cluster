@@ -1,24 +1,51 @@
 # Benchmark Execution Guide
 
+This guide provides instructions to execute the **Spark-Bench Logistic Regression** and **Databricks TPC-DS** benchmarks.
+
 ### Prerequisites
 
-1. You must make sure that the Hadoop HDFS and Spark services are active on all nodes before starting the benchmark process.
-
-2. On each node, copy the `spark-bench` / `tpcds-kit` / `spark-sql-perf` directories into this package's `benchmark/deps` directory.
+1. On each node, copy the `spark-bench` / `tpcds-kit` / `spark-sql-perf` directories into this package's `benchmark/deps` directory.
 
   **Note:** These directories are currently externally provided.
 
-3. On each node, run the `./tune.sh` script to set the appropriate CPU performance and SMT modes.
+2. On each node, run the `./tune.sh` script to set the appropriate CPU performance and SMT modes.
 
-4. On the master node, modify the `bench-env.sh` script according to your environment.
+3. On the master node, modify the `bench-env.sh` script according to your environment.
 
   **Note:** The required environment variables are `SPARK_MASTER` and `CLUSTER_NODES`.
 
 
 Note:  For consistency of benchmark results, these scripts include a step to clear the operating system caches by writing to the /proc/sys/vm/drop_caches file on all nodes.  The scripts will `ssh` to each node specified in `CLUSTER_NODES` to complete this step.
-
  
-### Spark-Bench Logistics Regression
+### Assumptions
+
+This guide assumes that you have completed the setup and configuration of a 1+4 cluster of Habanero (S812LC) POWER Servers (1 master node, 4 slave or data nodes) with the following resources available on each cluster node:
+
+| | |
+| --- | --- |
+| Number of sockets: | 1 |
+| Number of physical CPU cores: | 10 |
+| SMT mode: | SMT8 |
+| Number of virtual CPU cores: | 80 |
+| RAM size: | 256GB |
+
+If your cluster has a different configuration, you must adjust the Spark configuration parameters (e.g. `--total-executor-cores`, `--executor-cores`, `--executor-memory`) according to the resources available in your cluster:
+
+* For Spark-Bench Logistic Regression, the Spark configuration parameters are set in `logres/gen_data.sh` and `logres/run.sh`.
+* For Databricks TPC-DS, the Spark configuration parameters are set in `tpcds/gen_data.sh` and `tpcds/run.sh`.
+
+For ease of comparison, the benchmark execution scripts also provide comparable configuration parameters for a 1+4 x86 cluster (1 master node, 4 slave or data nodes) with the following resources available on each cluster node:
+
+| | |
+| --- | --- |
+| Number of sockets: | 2 |
+| Number of physical CPU cores: | 20 |
+| Number of virtual CPU cores: | 40 (hyperthreading) |
+| RAM size: | 256GB |
+
+If your x86 cluster has different configuration, you must adjust the aforementioned Spark configuration parameters according to the resources available in your cluster.
+
+### Spark-Bench Logistic Regression
  
 #### Generate dataset
  
@@ -34,7 +61,7 @@ Note:  For consistency of benchmark results, these scripts include a step to cle
 
         sudo -u hdfs hdfs dfs -ls /SparkBench/LogisticRegression/Input
 
-#### Execute the Spark-Bench Logistics Regression benchmark
+#### Execute the Spark-Bench Logistic Regression benchmark
  
 1. Login to the master node and run the following commands: 
 
@@ -49,7 +76,7 @@ Note:  For consistency of benchmark results, these scripts include a step to cle
  
 
  
-### Databricks TPC-DS benchmark
+### Databricks TPC-DS
  
 #### Generate dataset
  
