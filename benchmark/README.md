@@ -62,8 +62,6 @@ Note:  For consistency of benchmark results, these scripts include a step to cle
  
   **Note:** This step can take around 11 hours to complete on the 1+4  POWER8 cluster, and can take more time on an equivalent x86 cluster. 
  
-  To run the data generation on a x86 cluster, use the `gen_data_x86.sh` script. 
- 
 2. After the data generation completes, you can check the data by running the following command:
  
         sudo -u hdfs hdfs dfs -du -h /TPCDS-10TB
@@ -95,8 +93,6 @@ Note:  For consistency of benchmark results, these scripts include a step to cle
   The query will proceed in the background.  Check the progress in the `tpcds/q68*.out` file.
  
   **Note:** This step can take around 9 minutes to complete on the 1+4  POWER8 cluster, and can take more time to complete on an equivalent x86 cluster. 
- 
-  To run the query on a x86 cluster, you can run the `run_x86.sh` script.
  
 2. After the query completes, you can check the output file for the elapsed time that Spark took to run the query.
  
