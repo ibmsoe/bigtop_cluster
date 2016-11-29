@@ -80,7 +80,6 @@ add_element "yarn.resourcemanager.scheduler.address" "$RESOURCEMANAGER:8030" "/e
 add_element "dfs.namenode.datanode.registration.ip-hostname-check" "false" "/etc/hadoop/conf/hdfs-site.xml"
 
 
-### Apple PoC specific
 if [ -f disk_list ]; then
     ./prep_disks.sh
     sudo chown -R hdfs:hadoop /hdd*
