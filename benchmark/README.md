@@ -2,21 +2,6 @@
 
 This guide provides instructions to execute the **Spark-Bench Logistic Regression** and **Databricks TPC-DS** benchmarks.
 
-### Prerequisites
-
-1. On each node, copy the `spark-bench` / `tpcds-kit` / `spark-sql-perf` directories into this package's `benchmark/deps` directory.
-
-  **Note:** These directories are currently externally provided.
-
-2. On each node, run the `./tune.sh` script to set the appropriate CPU performance and SMT modes.
-
-3. On the master node, modify the `bench-env.sh` script according to your environment.
-
-  **Note:** The required environment variables are `SPARK_MASTER` and `CLUSTER_NODES`.
-
-
-Note:  For consistency of benchmark results, these scripts include a step to clear the operating system caches by writing to the /proc/sys/vm/drop_caches file on all nodes.  The scripts will `ssh` to each node specified in `CLUSTER_NODES` to complete this step.
- 
 ### Assumptions
 
 This guide assumes that you have completed the setup and configuration of a 1+4 cluster of Habanero (S812LC) POWER Servers (1 master node, 4 slave or data nodes) with the following resources available on each cluster node:
@@ -44,6 +29,20 @@ For ease of comparison, the benchmark execution scripts also provide comparable 
 | RAM size: | 256GB |
 
 If your x86 cluster has different configuration, you must adjust the aforementioned Spark configuration parameters according to the resources available in your cluster.
+
+### Prerequisites
+
+1. On each node, copy the `spark-bench` / `tpcds-kit` / `spark-sql-perf` directories into this package's `benchmark/deps` directory.
+
+  **Note:** These directories are currently externally provided.
+
+2. On each node, run the `./tune.sh` script to set the appropriate CPU performance and SMT modes.
+
+3. On the master node, modify the `bench-env.sh` script according to your environment.
+
+  **Note:** The required environment variables are `SPARK_MASTER` and `CLUSTER_NODES`.
+
+Note:  For consistency of benchmark results, these scripts include a step to clear the operating system caches by writing to the /proc/sys/vm/drop_caches file on all nodes.  The scripts will `ssh` to each node specified in `CLUSTER_NODES` to complete this step.
 
 ### Spark-Bench Logistic Regression
  
